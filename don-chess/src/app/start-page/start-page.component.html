@@ -1,0 +1,11 @@
+<h2>{{wellcome}}</h2>
+<hr>
+
+<li class="antre">
+    <ul (click)="login()">Login</ul>
+    <ul (click)="register()">Register</ul>
+</li>
+
+<div *ngIf="selectedAction">
+    <h2>Selected action: {{selectedAction | uppercase}}</h2>
+</div>
