@@ -3,12 +3,21 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StartPageComponent } from './start-page/start-page.component';
+import { HeaderComponent } from './header/header.component';
+import { ChallengeComponent } from './challenge/challenge.component';
+import { GameComponent } from './game/game.component';
+import { AuthComponent } from './auth/auth.component';
+import { InfoComponent } from './info/info.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    StartPageComponent
+    HeaderComponent,
+    ChallengeComponent,
+    GameComponent,
+    AuthComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
