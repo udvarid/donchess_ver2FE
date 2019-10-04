@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +10,7 @@ import { ChallengeComponent } from './challenge/challenge.component';
 import { GameComponent } from './game/game.component';
 import { AuthComponent } from './auth/auth.component';
 import { InfoComponent } from './info/info.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -17,11 +20,15 @@ import { InfoComponent } from './info/info.component';
     ChallengeComponent,
     GameComponent,
     AuthComponent,
-    InfoComponent
+    InfoComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
