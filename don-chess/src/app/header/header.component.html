@@ -15,20 +15,27 @@
         <li routerLinkActive="active" *ngIf="isAuthenticated">
           <a routerLink="/game">Games</a>
         </li>        
-        <li routerLinkActive="active" *ngIf="!isAuthenticated">
-          <a routerLink="/auth">Authenticate</a>
-        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="isAuthenticated">
           <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
         </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="!isAuthenticated">
-          <a style="cursor: pointer;" (click)="onLogin()">Login</a>
-        </li>
-      </ul>
+
+        <li class="dropdown" appDropdown *ngIf="!isAuthenticated">
+          <a style="cursor: pointer;" class="dropdown-toggle" role="button"
+            >Authorization <span class="caret"></span
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a style="cursor: pointer;" routerLink="/login" (click)="onLogin()">Login</a>
+            </li>
+            <li>
+              <a style="cursor: pointer;" routerLink="/auth">Register</a>
+            </li>
+          </ul>
+        </li>      
+
+      </ul>      
     </div>
   </div>
 </nav>
