@@ -59,7 +59,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-complete-guide-update:build"
+            "browserTarget": "ng-complete-guide-update:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

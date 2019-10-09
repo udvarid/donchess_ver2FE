@@ -9,6 +9,9 @@
         <li routerLinkActive="active">
             <a routerLink="/info">Info</a>
         </li>    
+        <li routerLinkActive="active" *ngIf="!isAuthenticated">
+          <a routerLink="/auth">Authorization</a>
+        </li>
         <li routerLinkActive="active" *ngIf="isAuthenticated">
           <a routerLink="/challenge">Challenges</a>
         </li>
@@ -20,21 +23,9 @@
         <li *ngIf="isAuthenticated">
           <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
         </li>
-
-        <li class="dropdown" appDropdown *ngIf="!isAuthenticated">
-          <a style="cursor: pointer;" class="dropdown-toggle" role="button"
-            >Authorization <span class="caret"></span
-          ></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a style="cursor: pointer;" routerLink="/login" (click)="onLogin()">Login</a>
-            </li>
-            <li>
-              <a style="cursor: pointer;" routerLink="/auth">Register</a>
-            </li>
-          </ul>
-        </li>      
-
+        <li *ngIf="!isAuthenticated">
+          <a style="cursor: pointer;" (click)="onLogin()">Login</a>
+        </li>
       </ul>      
     </div>
   </div>

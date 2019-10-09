@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +8,12 @@ import { finalize } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'Don-chess';
-  constructor() {}
+  greeting = {};
+  constructor(private http: HttpClient) {
+    http.get('http://localhost:8080/api/user/resource').subscribe(data => {
+      this.greeting = data;
+      console.log(data);
+    }
+    );
+  }
 }
