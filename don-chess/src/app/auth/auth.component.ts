@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService, AuthResponseData } from './auth.service';
+import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { UserLoginDto } from '../Dto/userLoginDto.model';
+import { Subscription } from 'rxjs';
+import { RegisterDto } from '../Dto/registerDto.model';
 
 
 @Component({
@@ -14,11 +16,11 @@ import { Observable } from 'rxjs';
 export class AuthComponent {
 
   isLoginMode = true;
-  isLoading = false;
   error: string = null;
 
+
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {
-    this.authService.authenticate(undefined, undefined);
+    this.authService.authenticate();
   }
 
   onSwitchMode() {
@@ -29,34 +31,23 @@ export class AuthComponent {
     if (!form.valid) {
       return;
     }
-    const email = form.value.email;
-    const passw = form.value.password;
 
-    // let authObs: Observable<AuthResponseData>;
-
-    this.isLoading = true;
     if (this.isLoginMode) {
-      // const credentials = {username: email, password: passw};
-      // this.authService.authenticate(credentials, () => {
-      //   this.router.navigateByUrl('/');
-      // });
-      this.authService.login(email, passw).subscribe( data => console.log(data));
+      const userLogin: UserLoginDto = {
+        password: form.value.password,
+        username: form.value.email,
+      };
+      this.authService.onLogin(userLogin);
+      this.router.navigate(['/info']);
     } else {
-      // authObs = this.authService.signup(email, password);
+      const userRegister: RegisterDto = {
+        email: form.value.email,
+        password: form.value.password,
+        fullName: form.value.fullName,
+      };
+      this.authService.onRegister(userRegister);
+      this.router.navigate(['/info']);
     }
-
-    // authObs.subscribe(
-    //   resData => {
-    //     console.log(resData);
-    //     this.isLoading = false;
-    //     this.router.navigate(['/recipes']);
-    //   },
-    //   errorMessage => {
-    //     console.log(errorMessage);
-    //     this.error = errorMessage;
-    //     this.isLoading = false;
-    //   }
-    // );
 
     form.reset();
   }

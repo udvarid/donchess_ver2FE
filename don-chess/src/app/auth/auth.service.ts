@@ -1,58 +1,86 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
+import { UserDto } from '../Dto/userDto.model';
+import { UserLoginDto } from '../Dto/userLoginDto.model';
+import { RegisterDto } from '../Dto/registerDto.model';
 
-export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  expiresIn: string;
-  localId: string;
-  registered?: boolean;
-}
+
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
+  authenticatedChanged = new Subject<boolean>();
   authenticated = false;
-
+  userName = new Subject<string>();
   constructor(private http: HttpClient, private router: Router) {}
 
-  authenticate(credentials, callback) {
+  authenticate() {
 
-    const header = new HttpHeaders(credentials ? {
-        authorization : 'Basic ' + btoa(credentials.username + ':' + credentials.password)
-    } : {});
+    const header = new HttpHeaders({});
 
     this.http.get('/api/user/user', {headers: header}).subscribe(response => {
-      console.log(response);
       if (response['name']) {
+          this.getUserDetail(response['name']);
           this.authenticated = true;
+          this.authenticatedChanged.next(true);
       } else {
           this.authenticated = false;
+          this.authenticatedChanged.next(false);
       }
-      return callback && callback();
-  });
+    });
 
   }
 
+  getUserDetail(email: string) {
+    const header = new HttpHeaders({});
+    this.http.get('api/user/oneUser?email=' + email, {headers: header}).subscribe((response: UserDto) => {
+      this.userName.next(response.fullName);
+    });
+  }
 
-  login(userName: string, passWord: string) {
+  onLogout() {
+    const header = new HttpHeaders({});
+    this.authenticated = false;
+    this.http.post('/logout', {}, {headers: header}).subscribe();
+    this.authenticatedChanged.next(false);
+    this.userName.next('');
+    this.router.navigate(['/auth']);
+  }
+
+  onLogin(loginData: UserLoginDto) {
     const header = new HttpHeaders({});
 
     return this.http
       .post<any>(
         '/api/user/login',
         {
-          username: userName,
-          password: passWord
+          username: loginData.username,
+          password: loginData.password
         },
         {headers: header}
-      );
+      ).subscribe( (info) => {
+        this.authenticate();
+      });
   }
+
+  onRegister(registerData: RegisterDto) {
+    const header = new HttpHeaders({});
+
+    return this.http
+      .post<any>(
+        '/api/user/register',
+        {
+          email: registerData.email,
+          password: registerData.password,
+          fullName: registerData.fullName
+        },
+        {headers: header}
+      ).subscribe();
+  }
+
 
   // private handleError(errorRes: HttpErrorResponse) {
   //   let errorMessage = 'An unknown error occurred!';

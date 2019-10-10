@@ -9,7 +9,7 @@
         "changeOrigin": true,
         "logLevel": "info"
     },
-    "/user": {
+    "/logout": {
         "target":  {
             "host": "localhost",
             "protocol": "http:",

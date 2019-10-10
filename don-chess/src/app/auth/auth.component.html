@@ -3,9 +3,9 @@
       <div class="alert alert-danger" *ngIf="error">
         <p>{{ error }}</p>
       </div>
-      <div *ngIf="isLoading" style="text-align: center;">
+      <!-- <div *ngIf="isLoading" style="text-align: center;">
         <app-loading-spinner></app-loading-spinner>
-      </div>
+      </div> -->
       <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
         <div class="form-group">
           <label for="email">E-Mail</label>
@@ -31,6 +31,18 @@
             minlength="3"
           />
         </div>
+        <div *ngIf="!isLoginMode" class="form-group">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              class="form-control"
+              ngModel
+              name="fullName"
+              required
+              minlength="3"
+            />
+        </div>
         <div>
           <button
             class="btn btn-primary"
@@ -44,8 +56,7 @@
             Switch to {{ isLoginMode ? 'Sign Up' : 'Login' }}
           </button>
         </div>
-      </form>
-      <span>{{authenticated()}}</span>
+      </form>      
     </div>
   </div>
   
