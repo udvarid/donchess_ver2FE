@@ -1,0 +1,16 @@
+<div>Users free to challenge</div>
+<div class="column">
+  <div class="col-xs-5">
+    <hr>
+    <ul class="list-group">
+      <a
+        class="list-group-item"
+        style="cursor: pointer"
+        *ngFor="let user of users; let i = index"
+        (click)="onChallenge(i)"
+      >
+        {{ user.fullName }}
+      </a>
+    </ul>
+  </div>
+</div>

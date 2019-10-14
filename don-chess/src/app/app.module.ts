@@ -13,6 +13,8 @@ import { InfoComponent } from './info/info.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { DropdownDirective } from './shared/dropdown.directives';
 import { AuthService } from './auth/auth.service';
+import { UserListComponent } from './challenge/user-list/user-list.component';
+import { ChallengeListComponent } from './challenge/challenge-list/challenge-list.component';
 
 
 @Injectable()
@@ -35,7 +37,9 @@ export class XhrInterceptor implements HttpInterceptor {
     AuthComponent,
     DropdownDirective,
     InfoComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    UserListComponent,
+    ChallengeListComponent
   ],
   imports: [
     BrowserModule,

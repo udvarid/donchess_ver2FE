@@ -20,7 +20,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.authService.authenticatedChanged.subscribe(auth => this.isAuthenticated = auth);
-    this.subscription2 = this.authService.userName.subscribe(name => this.userName = name);
+    this.subscription2 = this.authService.userName.subscribe(name => {
+      this.userName = name.fullName;
+    });
   }
 
   onLogout() {
@@ -29,5 +31,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }
