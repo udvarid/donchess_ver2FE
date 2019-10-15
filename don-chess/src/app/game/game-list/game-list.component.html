@@ -1,1 +1,16 @@
-<p>game-list works!</p>
+<div>Your active games</div>
+<div class="column">
+  <div class="col-xs-8">
+    <hr>
+    <ul class="list-group">
+      <a
+        class="list-group-item"
+        style="cursor: pointer"
+        *ngFor="let game of openGames; let i = index"
+        (click)="onSelect(i)"
+      >
+        White: {{ game.userOne.fullName }} --- Black: {{ game.userTwo.fullName }} --- Move: {{ game.lastMoveId }} --- Next: {{ game.nextMove }}
+      </a>
+    </ul>
+  </div>
+</div>

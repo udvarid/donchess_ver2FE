@@ -34,6 +34,5 @@ export class UserListComponent implements OnInit, OnDestroy {
   onChallenge(index: number) {
     const challenge: ChallengeCreateDto = {challengedId: this.users[index].id};
     this.challengeService.challengeUser(challenge);
-    console.log('I challenge the user of ' + this.users[index].fullName);
   }
 }

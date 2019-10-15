@@ -16,6 +16,8 @@ import { AuthService } from './auth/auth.service';
 import { UserListComponent } from './challenge/user-list/user-list.component';
 import { ChallengeListComponent } from './challenge/challenge-list/challenge-list.component';
 import { GameListComponent } from './game/game-list/game-list.component';
+import { GameSelectedComponent } from './game/game-selected/game-selected.component';
+import { ChessTableComponent } from './game/chess-table/chess-table.component';
 
 
 @Injectable()
@@ -41,7 +43,9 @@ export class XhrInterceptor implements HttpInterceptor {
     LoadingSpinnerComponent,
     UserListComponent,
     ChallengeListComponent,
-    GameListComponent
+    GameListComponent,
+    GameSelectedComponent,
+    ChessTableComponent
   ],
   imports: [
     BrowserModule,
