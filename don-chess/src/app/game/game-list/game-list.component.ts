@@ -28,6 +28,7 @@ export class GameListComponent implements OnInit, OnDestroy {
 
   onSelect(index: number) {
     this.gameService.getGameSelected(this.openGames[index].chessGameId);
+    this.gameService.getGameValidMoves(this.openGames[index].chessGameId);
   }
 
   ngOnDestroy() {
