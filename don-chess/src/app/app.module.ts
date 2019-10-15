@@ -15,6 +15,7 @@ import { DropdownDirective } from './shared/dropdown.directives';
 import { AuthService } from './auth/auth.service';
 import { UserListComponent } from './challenge/user-list/user-list.component';
 import { ChallengeListComponent } from './challenge/challenge-list/challenge-list.component';
+import { GameListComponent } from './game/game-list/game-list.component';
 
 
 @Injectable()
@@ -39,7 +40,8 @@ export class XhrInterceptor implements HttpInterceptor {
     InfoComponent,
     LoadingSpinnerComponent,
     UserListComponent,
-    ChallengeListComponent
+    ChallengeListComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,

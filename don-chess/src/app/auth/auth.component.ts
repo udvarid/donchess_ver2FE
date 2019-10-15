@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { UserLoginDto } from '../Dto/userLoginDto.model';
+import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { Subscription } from 'rxjs';
-import { RegisterDto } from '../Dto/registerDto.model';
+import { RegisterDto } from '../shared/dto/registerDto.model';
 
 
 @Component({

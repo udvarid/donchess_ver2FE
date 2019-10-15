@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UserDto } from '../Dto/userDto.model';
+import { UserDto } from '../shared/dto/userDto.model';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { ChallengeCreateDto } from '../Dto/challengeCreateDto.model';
-import { ChallengeDto } from '../Dto/challengeDto.model';
-import { ChallengeActionDto } from '../Dto/challengeActionDto.model';
+import { ChallengeCreateDto } from '../shared/dto/challengeCreateDto.model';
+import { ChallengeDto } from '../shared/dto/challengeDto.model';
+import { ChallengeActionDto } from '../shared/dto/challengeActionDto.model';
 
 
 @Injectable({ providedIn: 'root' })

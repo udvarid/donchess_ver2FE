@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserDto } from 'src/app/Dto/userDto.model';
+import { UserDto } from 'src/app/shared/dto/userDto.model';
 import { Subscription } from 'rxjs';
 import { ChallengeService } from '../challenge.service';
-import { ChallengeCreateDto } from 'src/app/Dto/challengeCreateDto.model';
+import { ChallengeCreateDto } from 'src/app/shared/dto/challengeCreateDto.model';
 
 @Component({
   selector: 'app-user-list',

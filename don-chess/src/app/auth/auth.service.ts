@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { UserDto } from '../Dto/userDto.model';
-import { UserLoginDto } from '../Dto/userLoginDto.model';
-import { RegisterDto } from '../Dto/registerDto.model';
+import { UserDto } from '../shared/dto/userDto.model';
+import { UserLoginDto } from '../shared/dto/userLoginDto.model';
+import { RegisterDto } from '../shared/dto/registerDto.model';
 
 
 @Injectable({ providedIn: 'root' })
