@@ -34,12 +34,12 @@ export class ChessTableComponent implements OnInit, OnDestroy {
     for (let i = 0; i < 8; i++) {
       this.table[i] = [];
       for (let j = 0; j < 8; j++) {
-        const figure: FigureDto = this.getFigure(i + 1, j + 1);
-        const targets: CellTarget[] = this.getTargets(i + 1, j + 1);
+        const figure: FigureDto = this.getFigure(7 - i + 1, j + 1);
+        const targets: CellTarget[] = this.getTargets(7 - i + 1, j + 1);
         this.table[i][j] = {
-          coordX: i,
+          coordX: 7 - i,
           coordY: j,
-          color: (i + j) % 2 === 0 ? Color.Black : Color.White,
+          color: (7 - i + j) % 2 === 0 ? Color.Black : Color.White,
           chessFigure: figure ? figure.figureType : null,
           chessFigureColor: figure ? figure.color : null,
           targets: targets ? targets : null
@@ -65,6 +65,10 @@ export class ChessTableComponent implements OnInit, OnDestroy {
     });
 
     return targets;
+  }
+
+  onSelectCell(selectedCell: Cell) {
+    this.gameService.clickOnCell(selectedCell);
   }
 
   ngOnDestroy() {

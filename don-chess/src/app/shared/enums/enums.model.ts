@@ -34,4 +34,12 @@ export enum ChessGameType {
     Normal = 'NORMAL'
 }
 
+export enum PromoteType {
+    King = 'KING',
+    Queen = 'QUEEN',
+    Bishop = 'BISHOP',
+    Knight = 'KNIGHT',
+    Rook = 'ROOK'
+}
+
 
