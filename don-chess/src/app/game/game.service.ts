@@ -69,7 +69,7 @@ export class GameService {
         if (clickedCell.targets.length > 0) {
             this.selectedCell = clickedCell;
             console.log('Selected cell has been changed');
-            console.log(this.selectedCell);
+            this.createTable();
             return;
         }
         if (this.selectedCell === null) {
@@ -89,10 +89,14 @@ export class GameService {
                 moveToY: clickedCell.coordX + 1,
                 promoteToFigure: this.canBePromoted(clickedCell) ? this.promotedFigure : ''
             };
+            this.selectedCell = null;
+            console.log('Move has been made');
             this.makeMove(move);
+        } else {
+            console.log('Selected cell has been unselected');
+            this.selectedCell = null;
+            this.createTable();
         }
-        console.log('Selected cell has been unselected');
-        this.selectedCell = null;
     }
 
     canBePromoted(clickedCell: Cell): boolean {
@@ -107,6 +111,9 @@ export class GameService {
 
     createTable() {
         const amINextPlayer: boolean = this.amINext(this.gameSelected);
+        const selectedTargets: CellTarget[] = this.selectedCell ?
+                                              this.getTargets(this.selectedCell.coordX + 1, this.selectedCell.coordY + 1) : [];
+        console.log(selectedTargets);
         for (let i = 0; i < 8; i++) {
           this.table[i] = [];
           for (let j = 0; j < 8; j++) {
@@ -118,11 +125,16 @@ export class GameService {
               color: (7 - i + j) % 2 === 0 ? Color.Black : Color.White,
               chessFigure: figure ? figure.figureType : null,
               chessFigureColor: figure ? figure.color : null,
-              targets: targets ? targets : []
+              targets: targets ? targets : [],
+              selectedCell: this.selectedCell &&
+                            this.selectedCell.coordX === 7 - i &&
+                            this.selectedCell.coordY === j ? true : false,
+              targetCell: selectedTargets.find(cell => cell.coordX === 7 - i && cell.coordY === j) ? true : false
             };
           }
         }
         this.chessTableChanged.next(this.table);
+        console.log(this.table);
       }
 
       getFigure(row: number, column: number): FigureDto {

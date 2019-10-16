@@ -7,6 +7,8 @@ export interface Cell {
     chessFigure?: ChessFigure;
     chessFigureColor?: Color;
     targets?: CellTarget[];
+    selectedCell: boolean;
+    targetCell: boolean;
 }
 
 export interface CellTarget {
