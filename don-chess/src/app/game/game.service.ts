@@ -10,6 +10,7 @@ import { ChessMoveDto } from '../shared/dto/chessMoveDto.model';
 import { FigureDto } from '../shared/dto/figureDto.model';
 import { Color, PromoteType, ChessFigure } from '../shared/enums/enums.model';
 import { CoordinateDto } from '../shared/dto/coordinateDto.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({ providedIn: 'root' })
 
@@ -26,7 +27,7 @@ export class GameService {
     gameValidMovesChange = new Subject<ValidMovesDto>();
     chessTableChanged = new Subject<Cell[][]>();
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
     getGameList() {
         const header = new HttpHeaders({});
@@ -60,6 +61,7 @@ export class GameService {
             console.log('Valid move happened');
             console.log(move);
             this.getGameSelected(this.gameSelected.chessGameId);
+            this.getGameList();
         });
     }
 
@@ -104,18 +106,19 @@ export class GameService {
     }
 
     createTable() {
+        const amINextPlayer: boolean = this.amINext(this.gameSelected);
         for (let i = 0; i < 8; i++) {
           this.table[i] = [];
           for (let j = 0; j < 8; j++) {
             const figure: FigureDto = this.getFigure(7 - i + 1, j + 1);
-            const targets: CellTarget[] = this.getTargets(7 - i + 1, j + 1);
+            const targets: CellTarget[] = amINextPlayer ? this.getTargets(7 - i + 1, j + 1) : null;
             this.table[i][j] = {
               coordX: 7 - i,
               coordY: j,
               color: (7 - i + j) % 2 === 0 ? Color.Black : Color.White,
               chessFigure: figure ? figure.figureType : null,
               chessFigureColor: figure ? figure.color : null,
-              targets: targets ? targets : null
+              targets: targets ? targets : []
             };
           }
         }
@@ -140,6 +143,14 @@ export class GameService {
         });
 
         return targets;
+      }
+
+      amINext(game: ChessGameDto): boolean {
+        if (game.nextMove === Color.White && game.userOne.id === this.authService.getUserName().id ||
+            game.nextMove === Color.Black && game.userTwo.id === this.authService.getUserName().id) {
+          return true;
+        }
+        return false;
       }
 
 }

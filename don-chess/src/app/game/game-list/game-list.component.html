@@ -9,7 +9,11 @@
         *ngFor="let game of openGames; let i = index"
         (click)="onSelect(i)"
       >
-        White: {{ game.userOne.fullName }} --- Black: {{ game.userTwo.fullName }} --- Move: {{ game.lastMoveId }} --- Next: {{ game.nextMove }}
+        White: {{ game.userOne.fullName }} --- 
+        Black: {{ game.userTwo.fullName }} --- 
+        Move: {{ game.lastMoveId }} --- 
+        Next: {{ game.nextMove }}
+        <span *ngIf="amINext(game)"> --- Your Move!</span>
       </a>
     </ul>
   </div>

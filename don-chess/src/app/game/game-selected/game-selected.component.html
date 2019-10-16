@@ -3,5 +3,6 @@ Selected Game:
     Black: {{ gameSelected.userTwo.fullName }} --- 
     Move: {{ gameSelected.lastMoveId }} --- 
     Next: {{ gameSelected.nextMove }} </p>
+<span *ngIf="amINext(gameSelected)"> --- Your Move!</span>    
 
 <hr>
