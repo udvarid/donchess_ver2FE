@@ -1,3 +1,12 @@
-<app-game-selected *ngIf="gameSelected" [gameSelected]="gameSelected"></app-game-selected>
-<app-game-list></app-game-list>
-<app-chess-table *ngIf="gameSelected"></app-chess-table>
+<div class="wrapper">
+    <div class="header">
+        <div *ngIf="gameSelected">
+            <app-game-selected [gameSelected]="gameSelected"></app-game-selected>
+            <hr>
+        </div>
+        <app-game-list></app-game-list>
+    </div>
+    <div class="main">
+        <app-chess-table *ngIf="gameSelected"></app-chess-table>
+    </div>
+</div>

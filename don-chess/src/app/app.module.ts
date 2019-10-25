@@ -18,6 +18,7 @@ import { ChallengeListComponent } from './challenge/challenge-list/challenge-lis
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameSelectedComponent } from './game/game-selected/game-selected.component';
 import { ChessTableComponent } from './game/chess-table/chess-table.component';
+import { CellComponent } from './game/chess-table/cell/cell.component';
 
 
 @Injectable()
@@ -45,7 +46,8 @@ export class XhrInterceptor implements HttpInterceptor {
     ChallengeListComponent,
     GameListComponent,
     GameSelectedComponent,
-    ChessTableComponent
+    ChessTableComponent,
+    CellComponent
   ],
   imports: [
     BrowserModule,
