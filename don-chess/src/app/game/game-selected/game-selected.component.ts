@@ -10,7 +10,7 @@ import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 })
 export class GameSelectedComponent implements OnInit {
 
-  @Input() private gameSelected: ChessTableDto;
+  @Input() public gameSelected: ChessTableDto;
 
   constructor(private gameService: GameService) { }
 

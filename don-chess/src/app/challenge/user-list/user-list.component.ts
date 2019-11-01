@@ -11,7 +11,7 @@ import { ChallengeCreateDto } from 'src/app/shared/dto/challengeCreateDto.model'
 })
 export class UserListComponent implements OnInit, OnDestroy {
 
-  private users: UserDto[];
+  public users: UserDto[];
   private subscription: Subscription;
 
   constructor(private challengeService: ChallengeService) { }

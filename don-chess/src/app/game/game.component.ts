@@ -10,7 +10,7 @@ import { ChessTableDto } from '../shared/dto/chessTableDto.model';
 })
 export class GameComponent implements OnInit, OnDestroy {
 
-  private gameSelected: ChessTableDto = null;
+  public gameSelected: ChessTableDto = null;
   private subscription: Subscription;
 
   constructor(private gameService: GameService) { }

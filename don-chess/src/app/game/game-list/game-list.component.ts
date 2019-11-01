@@ -3,7 +3,6 @@ import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 import { Subscription } from 'rxjs';
 import { GameService } from '../game.service';
 import { ChessGameStatus, Color } from 'src/app/shared/enums/enums.model';
-import { UserDto } from 'src/app/shared/dto/userDto.model';
 
 
 @Component({
@@ -14,7 +13,7 @@ import { UserDto } from 'src/app/shared/dto/userDto.model';
 export class GameListComponent implements OnInit, OnDestroy {
 
   private games: ChessGameDto[];
-  private openGames: ChessGameDto[];
+  public openGames: ChessGameDto[];
   private subscription: Subscription;
 
   constructor(private gameService: GameService) { }

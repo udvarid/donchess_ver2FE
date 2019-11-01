@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { UserLoginDto } from '../shared/dto/userLoginDto.model';
-import { Subscription } from 'rxjs';
 import { RegisterDto } from '../shared/dto/registerDto.model';
 
 
@@ -16,6 +15,7 @@ import { RegisterDto } from '../shared/dto/registerDto.model';
 export class AuthComponent {
 
   isLoginMode = true;
+  isLoading = false;
   error: string = null;
 
 

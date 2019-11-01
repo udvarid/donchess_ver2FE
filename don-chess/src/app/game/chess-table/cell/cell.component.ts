@@ -9,7 +9,7 @@ import { Color, ChessFigure } from 'src/app/shared/enums/enums.model';
 })
 export class CellComponent {
 
-  @Input() private cell: Cell;
+  @Input() public cell: Cell;
 
   private fileFolder = 'assets/picture/';
 

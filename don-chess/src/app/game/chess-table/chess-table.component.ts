@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ChessTableDto } from 'src/app/shared/dto/chessTableDto.model';
 import { GameService } from '../game.service';
 import { Subscription } from 'rxjs';
-import { ValidMovesDto } from 'src/app/shared/dto/validMovesDto.model';
 import { Cell } from 'src/app/shared/chessTable.model';
 
 
@@ -14,7 +12,7 @@ import { Cell } from 'src/app/shared/chessTable.model';
 export class ChessTableComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
-  private table: Cell[][] = [];
+  public table: Cell[][] = [];
 
   constructor(private gameService: GameService) { }
 

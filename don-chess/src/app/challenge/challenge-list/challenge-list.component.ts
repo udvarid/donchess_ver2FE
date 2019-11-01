@@ -14,9 +14,9 @@ import { ChallengeAction } from 'src/app/shared/enums/enums.model';
 })
 export class ChallengeListComponent implements OnInit, OnDestroy {
 
-  private myChallenges: ChallengeDto[] = [];
-  private freeChallenges: ChallengeDto[] = [];
-  private challengesOnMe: ChallengeDto[] = [];
+  public myChallenges: ChallengeDto[] = [];
+  public freeChallenges: ChallengeDto[] = [];
+  public challengesOnMe: ChallengeDto[] = [];
   private loggedInUser;
   private subscription: Subscription = new Subscription();
   private subscriptionLoggedIn: Subscription = new Subscription();
