@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 import { UserDto } from '../shared/dto/userDto.model';
 import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { RegisterDto } from '../shared/dto/registerDto.model';
-import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,6 +14,7 @@ export class AuthService {
   userName = new Subject<UserDto>();
   userNameDto: UserDto;
   constructor(private http: HttpClient, private router: Router) {}
+
 
   authenticate() {
 
@@ -62,8 +62,6 @@ export class AuthService {
 
   onLogin(loginData: UserLoginDto) {
     const header = new HttpHeaders({});
-
-    alert(environment.production + ' ' + environment.apiUrl);
 
     return this.http
       .post<any>(
