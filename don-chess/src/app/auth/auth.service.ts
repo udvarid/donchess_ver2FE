@@ -64,7 +64,7 @@ export class AuthService {
     const header = new HttpHeaders({});
 
     return this.http
-      .post<any>('/api/user/login',
+      .post<any>('http://188.166.7.163:8080/api/user/login',
         {
           username: loginData.username,
           password: loginData.password
