@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { UserDto } from '../shared/dto/userDto.model';
 import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { RegisterDto } from '../shared/dto/registerDto.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -15,12 +16,16 @@ export class AuthService {
   userNameDto: UserDto;
   constructor(private http: HttpClient, private router: Router) {}
 
+  pre = '';
+
 
   authenticate() {
 
     const header = new HttpHeaders({});
 
-    this.http.get('/api/user/user', {headers: header}).subscribe(response => {
+    this.pre = environment.apiUrl;
+
+    this.http.get(this.pre + '/api/user/user', {headers: header}).subscribe(response => {
       if (response['name']) {
           this.getUserDetail(response['name']);
           this.authenticated = true;
@@ -39,7 +44,7 @@ export class AuthService {
 
   getUserDetail(email: string) {
     const header = new HttpHeaders({});
-    this.http.get('api/user/oneUser?email=' + email, {headers: header}).subscribe((response: UserDto) => {
+    this.http.get(this.pre + 'api/user/oneUser?email=' + email, {headers: header}).subscribe((response: UserDto) => {
       this.userName.next(response);
       this.userNameDto = response;
     });
@@ -48,7 +53,7 @@ export class AuthService {
   onLogout() {
     const header = new HttpHeaders({});
     this.authenticated = false;
-    this.http.post('/logout', {}, {headers: header}).subscribe();
+    this.http.post(this.pre + '/logout', {}, {headers: header}).subscribe();
     this.authenticatedChanged.next(false);
     const emptyUser: UserDto = {
       id: null,
@@ -64,8 +69,7 @@ export class AuthService {
     const header = new HttpHeaders({});
 
     return this.http
-      .post<any>(
-        '/api/user/login',
+      .post<any>(this.pre + '/api/user/login',
         {
           username: loginData.username,
           password: loginData.password
@@ -80,8 +84,7 @@ export class AuthService {
     const header = new HttpHeaders({});
 
     return this.http
-      .post<any>(
-        '/api/user/register',
+      .post<any>(this.pre + '/api/user/register',
         {
           email: registerData.email,
           password: registerData.password,

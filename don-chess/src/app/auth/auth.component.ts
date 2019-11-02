@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { RegisterDto } from '../shared/dto/registerDto.model';
-import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -26,10 +25,6 @@ export class AuthComponent {
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
-  }
-
-  getApiUrl(): string {
-    return environment.apiUrl;
   }
 
   onSubmit(form: NgForm) {
