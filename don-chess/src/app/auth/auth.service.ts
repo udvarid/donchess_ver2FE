@@ -63,6 +63,7 @@ export class AuthService {
   onLogin(loginData: UserLoginDto) {
     const header = new HttpHeaders({});
 
+    console.log('kiírom a környezeti cuccot');
     console.log(environment.production + ' ' + environment.apiUrl);
 
     return this.http
