@@ -24,7 +24,7 @@ export class AuthService {
 
     const header = new HttpHeaders({});
 
-    this.http.get(this.pre + '/api/user/user', {headers: header}).subscribe(response => {
+    this.http.get(this.pre + '/api/user/user', {headers: header,  withCredentials: true }).subscribe(response => {
       if (response['name']) {
           this.getUserDetail(response['name']);
           this.authenticated = true;
@@ -73,7 +73,7 @@ export class AuthService {
           username: loginData.username,
           password: loginData.password
         },
-        {headers: header}
+        {headers: header,  withCredentials: true }
       ).subscribe( (info) => {
         this.authenticate();
       });
