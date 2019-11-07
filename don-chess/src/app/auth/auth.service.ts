@@ -43,7 +43,8 @@ export class AuthService {
 
   getUserDetail(email: string) {
     const header = new HttpHeaders({});
-    this.http.get(this.pre + 'api/user/oneUser?email=' + email, {headers: header}).subscribe((response: UserDto) => {
+    this.http.get(this.pre + 'api/user/oneUser?email=' + email, {headers: header,  withCredentials: true })
+    .subscribe((response: UserDto) => {
       this.userName.next(response);
       this.userNameDto = response;
     });
@@ -52,7 +53,7 @@ export class AuthService {
   onLogout() {
     const header = new HttpHeaders({});
     this.authenticated = false;
-    this.http.post(this.pre + '/logout', {}, {headers: header}).subscribe();
+    this.http.post(this.pre + '/logout', {}, {headers: header,  withCredentials: true }).subscribe();
     this.authenticatedChanged.next(false);
     const emptyUser: UserDto = {
       id: null,
@@ -89,7 +90,7 @@ export class AuthService {
           password: registerData.password,
           fullName: registerData.fullName
         },
-        {headers: header}
+        {headers: header,  withCredentials: true }
       ).subscribe();
   }
 
