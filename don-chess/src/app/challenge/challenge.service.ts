@@ -25,7 +25,7 @@ export class ChallengeService {
 
     getUserDetail() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/user/listOfFreeUsers', {headers: header}).subscribe((response: UserDto[]) => {
+        this.http.get(this.pre + '/api/user/listOfFreeUsers', {headers: header,  withCredentials: true }).subscribe((response: UserDto[]) => {
             this.users = response;
             this.usersChanged.next(response);
         });
@@ -33,7 +33,7 @@ export class ChallengeService {
 
     getChallengeDetail() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/challenge/listForTheRequester', {headers: header}).subscribe((response: ChallengeDto[]) => {
+        this.http.get(this.pre + '/api/challenge/listForTheRequester', {headers: header,  withCredentials: true }).subscribe((response: ChallengeDto[]) => {
             this.challenges = response;
             this.challengeChanged.next(response);
         });
@@ -41,7 +41,7 @@ export class ChallengeService {
 
     challengeUser(challengedDto: ChallengeCreateDto) {
         const header = new HttpHeaders({});
-        this.http.post(this.pre + '/api/challenge/create', challengedDto, {headers: header}).subscribe( ans => {
+        this.http.post(this.pre + '/api/challenge/create', challengedDto, {headers: header,  withCredentials: true }).subscribe( ans => {
             this.getUserDetail();
             this.getChallengeDetail();
         }
@@ -50,7 +50,7 @@ export class ChallengeService {
 
     handleChallenge(answer: ChallengeActionDto) {
         const header = new HttpHeaders({});
-        this.http.post(this.pre + '/api/challenge/answer', answer, {headers: header}).subscribe( ans => {
+        this.http.post(this.pre + '/api/challenge/answer', answer, {headers: header,  withCredentials: true }).subscribe( ans => {
             this.getUserDetail();
             this.getChallengeDetail();
         }

@@ -35,7 +35,7 @@ export class GameService {
 
     getGameList() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/game/list', {headers: header}).subscribe((response: ChessGameDto[]) => {
+        this.http.get(this.pre + '/api/game/list', {headers: header,  withCredentials: true }).subscribe((response: ChessGameDto[]) => {
             this.games = response;
             this.gamesChanged.next(response);
         });
@@ -43,7 +43,7 @@ export class GameService {
 
     getGameSelected(index: number) {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/game/' + index, {headers: header}).subscribe((response: ChessTableDto) => {
+        this.http.get(this.pre + '/api/game/' + index, {headers: header,  withCredentials: true }).subscribe((response: ChessTableDto) => {
             this.gameSelected = response;
             this.gameSelectedChange.next(response);
             this.getGameValidMoves(index);
@@ -52,7 +52,8 @@ export class GameService {
 
     getGameValidMoves(index: number) {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/game/validMoves/' + index, {headers: header}).subscribe((response: ValidMovesDto) => {
+        this.http.get(this.pre + '/api/game/validMoves/' + index, {headers: header,  withCredentials: true })
+        .subscribe((response: ValidMovesDto) => {
             this.gameValidMoves = response;
             this.gameValidMovesChange.next(response);
             this.createTable();
@@ -61,7 +62,7 @@ export class GameService {
 
     makeMove(move: ChessMoveDto) {
         const header = new HttpHeaders({});
-        this.http.post(this.pre + '/api/game/move', move, {headers: header}).subscribe(() => {
+        this.http.post(this.pre + '/api/game/move', move, {headers: header,  withCredentials: true }).subscribe(() => {
             console.log('Valid move happened');
             console.log(move);
             this.getGameSelected(this.gameSelected.chessGameId);
