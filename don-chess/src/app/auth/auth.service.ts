@@ -43,7 +43,7 @@ export class AuthService {
 
   getUserDetail(email: string) {
     const header = new HttpHeaders({});
-    this.http.get(this.pre + 'api/user/oneUser?email=' + email, {headers: header,  withCredentials: true })
+    this.http.get(this.pre + '/api/user/oneUser?email=' + email, {headers: header,  withCredentials: true })
     .subscribe((response: UserDto) => {
       this.userName.next(response);
       this.userNameDto = response;
