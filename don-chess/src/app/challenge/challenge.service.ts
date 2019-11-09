@@ -25,7 +25,8 @@ export class ChallengeService {
 
     getUserDetail() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/user/listOfFreeUsers', {headers: header,  withCredentials: true }).subscribe((response: UserDto[]) => {
+        this.http.get(this.pre + '/api/user/listOfFreeUsers', {headers: header,  withCredentials: true })
+        .subscribe((response: UserDto[]) => {
             this.users = response;
             this.usersChanged.next(response);
         });
@@ -33,7 +34,8 @@ export class ChallengeService {
 
     getChallengeDetail() {
         const header = new HttpHeaders({});
-        this.http.get(this.pre + '/api/challenge/listForTheRequester', {headers: header,  withCredentials: true }).subscribe((response: ChallengeDto[]) => {
+        this.http.get(this.pre + '/api/challenge/listForTheRequester', {headers: header,  withCredentials: true })
+        .subscribe((response: ChallengeDto[]) => {
             this.challenges = response;
             this.challengeChanged.next(response);
         });
