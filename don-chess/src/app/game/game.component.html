@@ -7,6 +7,7 @@
         <app-game-list></app-game-list>
     </div>
     <div class="main">
-        <app-chess-table *ngIf="gameSelected"></app-chess-table>
+        <app-chess-table *ngIf="gameSelected"></app-chess-table>       
+        <button *ngIf="gameSelected && amINext(gameSelected)" (click)="onResign()">Feladom</button>
     </div>
 </div>

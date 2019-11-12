@@ -14,7 +14,9 @@ export class GameListComponent implements OnInit, OnDestroy {
 
   private games: ChessGameDto[];
   public openGames: ChessGameDto[];
+  public closedGames: ChessGameDto[];
   private subscription: Subscription;
+  private subscription2: Subscription;
 
   constructor(private gameService: GameService) { }
 
@@ -22,8 +24,14 @@ export class GameListComponent implements OnInit, OnDestroy {
     this.subscription = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
       this.games = response;
       this.openGames = response.filter(game => game.chessGameStatus === ChessGameStatus.Open);
+      this.closedGames = response.filter(game => game.chessGameStatus !== ChessGameStatus.Open);
       this.openGames = this.openGames.filter(game => this.amINext(game))
                   .concat(this.openGames.filter(game => !this.amINext(game)));
+    });
+    this.subscription2 = this.gameService.succesResign.subscribe((result: boolean) => {
+      if (result) {
+        this.gameService.getGameList();
+      }
     });
     this.gameService.getGameList();
   }
@@ -32,12 +40,17 @@ export class GameListComponent implements OnInit, OnDestroy {
     this.gameService.getGameSelected(this.openGames[index].chessGameId);
   }
 
+  onSelectClosed(index: number) {
+    this.gameService.getGameSelected(this.closedGames[index].chessGameId);
+  }
+
   amINext(game: ChessGameDto): boolean {
     return this.gameService.amINext(game);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
 }

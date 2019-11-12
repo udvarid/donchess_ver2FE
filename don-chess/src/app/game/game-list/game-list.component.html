@@ -19,4 +19,28 @@
       </ul>
     </div>
   </div>
+  <br>
+  -------------------------------------
+  <br>
+  Your closed games
+  <br>
+  <div class="column">
+    <div class="col-xs-20">
+      <hr>
+      <ul class="list-group">
+        <a
+          class="list-group-item"
+          style="cursor: pointer"
+          *ngFor="let game of closedGames; let i = index"
+          (click)="onSelectClosed(i)"
+        >
+          White: {{ game.userOne.fullName }} --- 
+          Black: {{ game.userTwo.fullName }} --- 
+          Result: {{ game.result }}
+
+        </a>
+      </ul>
+    </div>
+  </div>
+
 </div>

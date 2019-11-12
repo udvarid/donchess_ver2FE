@@ -8,7 +8,7 @@ import { ValidMovesDto } from '../shared/dto/validMovesDto.model';
 import { Cell, CellTarget } from '../shared/chessTable.model';
 import { ChessMoveDto } from '../shared/dto/chessMoveDto.model';
 import { FigureDto } from '../shared/dto/figureDto.model';
-import { Color, PromoteType, ChessFigure } from '../shared/enums/enums.model';
+import { Color, PromoteType, ChessFigure, Result } from '../shared/enums/enums.model';
 import { CoordinateDto } from '../shared/dto/coordinateDto.model';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
@@ -27,6 +27,7 @@ export class GameService {
     gameSelectedChange = new Subject<ChessTableDto>();
     gameValidMovesChange = new Subject<ValidMovesDto>();
     chessTableChanged = new Subject<Cell[][]>();
+    succesResign = new Subject<boolean>();
     pre: string;
 
     constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
@@ -115,7 +116,7 @@ export class GameService {
     }
 
     createTable() {
-        const amINextPlayer: boolean = this.amINext(this.gameSelected);
+        const amINextPlayer: boolean = this.amINext(this.gameSelected) && this.gameSelected.result === Result.Open;
         const selectedTargets: CellTarget[] = this.selectedCell ?
                                               this.getTargets(this.selectedCell.coordX + 1, this.selectedCell.coordY + 1) : [];
         console.log(selectedTargets);
@@ -168,6 +169,14 @@ export class GameService {
           return true;
         }
         return false;
+      }
+
+      resign(gameId: number) {
+        const header = new HttpHeaders({});
+        this.http.get(this.pre + '/api/game/giveUp/' + gameId, {headers: header,  withCredentials: true })
+        .subscribe(() => {
+            this.succesResign.next(true);
+        });
       }
 
 }
