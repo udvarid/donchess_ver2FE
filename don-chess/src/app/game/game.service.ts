@@ -116,7 +116,7 @@ export class GameService {
     }
 
     createTable() {
-        const amINextPlayer: boolean = this.amINext(this.gameSelected) && this.gameSelected.result === Result.Open;
+        const amINextPlayer: boolean = this.amINext(this.gameSelected);
         const selectedTargets: CellTarget[] = this.selectedCell ?
                                               this.getTargets(this.selectedCell.coordX + 1, this.selectedCell.coordY + 1) : [];
         console.log(selectedTargets);
