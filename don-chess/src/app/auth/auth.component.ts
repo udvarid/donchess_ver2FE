@@ -14,14 +14,15 @@ import { RegisterDto } from '../shared/dto/registerDto.model';
 })
 export class AuthComponent {
 
+
   isLoginMode = true;
   isLoading = false;
   error: string = null;
 
-
   constructor(private authService: AuthService, private router: Router, private http: HttpClient) {
     this.authService.authenticate();
   }
+
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;

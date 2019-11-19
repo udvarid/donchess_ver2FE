@@ -4,6 +4,7 @@ import { GameService } from './game.service';
 import { ChessTableDto } from '../shared/dto/chessTableDto.model';
 import { ChessGameDto } from '../shared/dto/chessGameDto.model';
 import { Result } from '../shared/enums/enums.model';
+import { ModalService } from '../shared/modal/model.service';
 
 @Component({
   selector: 'app-game',
@@ -16,16 +17,14 @@ export class GameComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private subscription2: Subscription;
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.subscription = this.gameService.gameSelectedChange.subscribe((game: ChessTableDto) => {
       this.gameSelected = game;
     });
-    this.subscription2 = this.gameService.succesResign.subscribe((resignResult: boolean) => {
-      if (resignResult) {
-        this.gameSelected = null;
-      }
+    this.subscription2 = this.gameService.endOfGameResult.subscribe(() => {
+      this.gameSelected = null;
     });
 
   }
@@ -41,6 +40,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
   onResign() {
     this.gameService.resign(this.gameSelected.chessGameId);
+  }
+
+  closeModal(id) {
+    this.modalService.close(id);
   }
 
 }

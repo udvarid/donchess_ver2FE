@@ -3,6 +3,8 @@ import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 import { Subscription } from 'rxjs';
 import { GameService } from '../game.service';
 import { ChessGameStatus, Color } from 'src/app/shared/enums/enums.model';
+import { resultDto } from 'src/app/shared/dto/resultDto.model';
+import { ModalService } from 'src/app/shared/modal/model.service';
 
 
 @Component({
@@ -17,8 +19,9 @@ export class GameListComponent implements OnInit, OnDestroy {
   public closedGames: ChessGameDto[];
   private subscription: Subscription;
   private subscription2: Subscription;
+  public endOfGame: resultDto;
 
-  constructor(private gameService: GameService) { }
+  constructor(private gameService: GameService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.subscription = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
@@ -28,10 +31,10 @@ export class GameListComponent implements OnInit, OnDestroy {
       this.openGames = this.openGames.filter(game => this.amINext(game))
                   .concat(this.openGames.filter(game => !this.amINext(game)));
     });
-    this.subscription2 = this.gameService.succesResign.subscribe((result: boolean) => {
-      if (result) {
+    this.subscription2 = this.gameService.endOfGameResult.subscribe((result: resultDto) => {
+        this.endOfGame = result;
+        this.modalService.open('end-of-game-modal');
         this.gameService.getGameList();
-      }
     });
     this.gameService.getGameList();
   }

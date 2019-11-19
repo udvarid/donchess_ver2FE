@@ -19,6 +19,7 @@ import { GameListComponent } from './game/game-list/game-list.component';
 import { GameSelectedComponent } from './game/game-selected/game-selected.component';
 import { ChessTableComponent } from './game/chess-table/chess-table.component';
 import { CellComponent } from './game/chess-table/cell/cell.component';
+import { ModalComponent } from './shared/modal/modal.component';
 
 
 @Injectable()
@@ -47,7 +48,8 @@ export class XhrInterceptor implements HttpInterceptor {
     GameListComponent,
     GameSelectedComponent,
     ChessTableComponent,
-    CellComponent
+    CellComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

@@ -8,5 +8,30 @@
             <app-cell [cell]="cell"></app-cell>
         </a>    
     </div> 
-    <br>       
+    <br>   
+    <button (click)="this.modalService.open('promotion-modal')"> promotion test</button>    
 </div>
+
+<jw-modal id="promotion-modal">
+
+    <a (click)="onSelectedQueen()">
+        <img *ngIf="isItWhite()" src="assets/picture/QueenWhite.png" alt="">
+        <img *ngIf="!isItWhite()" src="assets/picture/QueenBlack.png" alt="">
+    </a>
+
+    <a (click)="onSelectedBishop()">
+        <img *ngIf="isItWhite()" src="assets/picture/BishopWhite.png" alt="">
+        <img *ngIf="!isItWhite()" src="assets/picture/BishopBlack.png" alt="">
+    </a>
+
+    <a (click)="onSelectedKnight()">
+        <img *ngIf="isItWhite()" src="assets/picture/KnightWhite.png" alt="">
+        <img *ngIf="!isItWhite()" src="assets/picture/KnightBlack.png" alt="">
+    </a>
+    
+    <a (click)="onSelectedRook()">
+        <img *ngIf="isItWhite()" src="assets/picture/RookWhite.png" alt="">
+        <img *ngIf="!isItWhite()" src="assets/picture/RookBlack.png" alt="">
+    </a>
+            
+</jw-modal>

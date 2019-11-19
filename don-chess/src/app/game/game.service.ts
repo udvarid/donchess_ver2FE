@@ -12,6 +12,7 @@ import { Color, PromoteType, ChessFigure, Result } from '../shared/enums/enums.m
 import { CoordinateDto } from '../shared/dto/coordinateDto.model';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { resultDto } from '../shared/dto/resultDto.model';
 
 @Injectable({ providedIn: 'root' })
 
@@ -27,7 +28,8 @@ export class GameService {
     gameSelectedChange = new Subject<ChessTableDto>();
     gameValidMovesChange = new Subject<ValidMovesDto>();
     chessTableChanged = new Subject<Cell[][]>();
-    succesResign = new Subject<boolean>();
+    endOfGameResult = new Subject<resultDto>();
+    newPromotion = new Subject<boolean>();
     pre: string;
 
     constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
@@ -40,6 +42,11 @@ export class GameService {
             this.games = response;
             this.gamesChanged.next(response);
         });
+    }
+
+    setPromotion(promotion: PromoteType) {
+        this.promotedFigure = promotion;
+        this.newPromotion.next(true);
     }
 
     getGameSelected(index: number) {
@@ -63,10 +70,14 @@ export class GameService {
 
     makeMove(move: ChessMoveDto) {
         const header = new HttpHeaders({});
-        this.http.post(this.pre + '/api/game/move', move, {headers: header,  withCredentials: true }).subscribe(() => {
+        this.http.post(this.pre + '/api/game/move', move, {headers: header,  withCredentials: true })
+        .subscribe((result: resultDto) => {
             console.log('Valid move happened');
             console.log(move);
             this.getGameSelected(this.gameSelected.chessGameId);
+            if (result.result !== Result.Open) {
+                this.endOfGameResult.next(result);
+            }
             this.getGameList();
         });
     }
@@ -85,7 +96,6 @@ export class GameService {
         if (this.selectedCell.targets.find(cell =>
             cell.coordX === clickedCell.coordX && cell.coordY === clickedCell.coordY
         )) {
-            // TODO promotion asking in case of Pawn
             const move: ChessMoveDto = {
                 gameId: this.gameSelected.chessGameId,
                 moveId: this.gameSelected.lastMoveId + 1,
@@ -106,7 +116,7 @@ export class GameService {
     }
 
     canBePromoted(clickedCell: Cell): boolean {
-        if (this.selectedCell.chessFigure === ChessFigure.Pawn) {
+        if (this.selectedCell !== null && this.selectedCell.chessFigure === ChessFigure.Pawn) {
             if (this.selectedCell.chessFigureColor === Color.White && clickedCell.coordX === 7 ||
                 this.selectedCell.chessFigureColor === Color.Black && clickedCell.coordX === 0) {
                 return true;
@@ -174,9 +184,13 @@ export class GameService {
       resign(gameId: number) {
         const header = new HttpHeaders({});
         this.http.get(this.pre + '/api/game/giveUp/' + gameId, {headers: header,  withCredentials: true })
-        .subscribe(() => {
-            this.succesResign.next(true);
+        .subscribe((result: resultDto) => {
+            this.endOfGameResult.next(result);
         });
+      }
+
+      getActualColor(): Color {
+          return this.gameSelected.nextMove;
       }
 
 }
