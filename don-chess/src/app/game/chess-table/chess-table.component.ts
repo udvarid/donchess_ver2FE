@@ -38,10 +38,6 @@ export class ChessTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  public modalOpen(modalName: string) {
-    this.modalService.open(modalName);
-  }
-
   isItWhite(): boolean {
     return this.gameService.getActualColor() === Color.White;
   }
