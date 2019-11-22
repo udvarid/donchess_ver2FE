@@ -3,7 +3,10 @@
         <!-- FIXME erre esetleg külön kis komponenst csinálni -->
         <hr>
         <p>My Challenges</p>
-        <ul class="list-group">
+        <div *ngIf="isLoading" style="text-align: center;">
+            <app-loading-spinner></app-loading-spinner>
+        </div>        
+        <ul class="list-group" *ngIf="!isLoading">
         <a
             class="list-group-item"
             style="cursor: pointer"
@@ -13,28 +16,36 @@
             <button type="button" (click)="onDeleteMyChallenge(i)">Delete</button>
         </a>
         </ul>
+
         <hr>
         <p>Free Challenges</p>
-        <ul class="list-group">
+        <div *ngIf="isLoading" style="text-align: center;">
+            <app-loading-spinner></app-loading-spinner>
+        </div>            
+        <ul class="list-group" *ngIf="!isLoading">
         <a
             class="list-group-item"
             style="cursor: pointer"
             *ngFor="let challenge of freeChallenges; let i = index"            
-            (click)="onAcceptFreeChallenge(i)"
         >
             {{ challenge.challengerName }} 
+            <button type="button" (click)="onAcceptFreeChallenge(i)">Accept</button>
         </a>
         </ul>
+
         <hr>
         <p>Challenges on me</p>
-        <ul class="list-group">
+        <div *ngIf="isLoading" style="text-align: center;">
+            <app-loading-spinner></app-loading-spinner>
+        </div>            
+        <ul class="list-group" *ngIf="!isLoading">
         <a
             class="list-group-item"
             style="cursor: pointer"
             *ngFor="let challenge of challengesOnMe; let i = index"            
-            (click)="onAcceptAimedChallenge(i)"
         >
             {{ challenge.challengerName }} ------- {{ challenge.challengedName }}
+            <button type="button" (click)="onAcceptAimedChallenge(i)">Accept</button>
             <button type="button" (click)="onDeclineChallenge(i)">Decline</button>
         </a>
         </ul>

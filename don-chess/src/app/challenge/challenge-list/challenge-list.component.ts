@@ -19,7 +19,8 @@ export class ChallengeListComponent implements OnInit, OnDestroy {
   public challengesOnMe: ChallengeDto[] = [];
   private loggedInUser;
   private subscription: Subscription = new Subscription();
-  private subscriptionLoggedIn: Subscription = new Subscription();
+  private subscription2: Subscription = new Subscription();
+  public isLoading = false;
 
   constructor(private challengeService: ChallengeService, private auth: AuthService) { }
 
@@ -27,7 +28,13 @@ export class ChallengeListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loggedInUser = this.auth.getUserName();
     this.getChallenges();
+    this.isLoading = true;
     this.challengeService.getChallengeDetail();
+    this.subscription2 = this.challengeService.challengeListRefreshed
+      .subscribe( (response: boolean) => {
+        this.isLoading = true;
+      }
+    );
   }
 
   getChallenges() {
@@ -37,6 +44,7 @@ export class ChallengeListComponent implements OnInit, OnDestroy {
         this.myChallenges = challenges.filter(ch => ch.challengerId === this.loggedInUser.id);
         this.freeChallenges = challenges.filter(ch => ch.challengedId === null && ch.challengerId !== this.loggedInUser.id);
         this.challengesOnMe = challenges.filter(ch => ch.challengedId === this.loggedInUser.id);
+        this.isLoading = false;
       }
     );
   }
@@ -82,7 +90,7 @@ export class ChallengeListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.subscriptionLoggedIn.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
 }

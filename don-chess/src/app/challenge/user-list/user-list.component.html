@@ -2,8 +2,11 @@
 <div class="column">
   <div class="col-xs-5">
     <hr>
-    <ul class="list-group">
-      <a
+    <div *ngIf="isLoading" style="text-align: center;">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+    <ul class="list-group" *ngIf="!isLoading">
+      <a 
         class="list-group-item"
         style="cursor: pointer"
         *ngFor="let user of users; let i = index"

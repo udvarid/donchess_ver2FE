@@ -20,6 +20,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private subscription2: Subscription;
   public endOfGame: resultDto;
+  public isLoading = false;
 
   constructor(private gameService: GameService, private modalService: ModalService) { }
 
@@ -30,12 +31,15 @@ export class GameListComponent implements OnInit, OnDestroy {
       this.closedGames = response.filter(game => game.chessGameStatus !== ChessGameStatus.Open);
       this.openGames = this.openGames.filter(game => this.amINext(game))
                   .concat(this.openGames.filter(game => !this.amINext(game)));
+      this.isLoading = false;
     });
     this.subscription2 = this.gameService.endOfGameResult.subscribe((result: resultDto) => {
         this.endOfGame = result;
         this.modalService.open('end-of-game-modal');
+        this.isLoading = true;
         this.gameService.getGameList();
     });
+    this.isLoading = true;
     this.gameService.getGameList();
   }
 

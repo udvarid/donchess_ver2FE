@@ -13,6 +13,8 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   public users: UserDto[];
   private subscription: Subscription;
+  private subscription2: Subscription;
+  public isLoading = false;
 
   constructor(private challengeService: ChallengeService) { }
 
@@ -21,14 +23,23 @@ export class UserListComponent implements OnInit, OnDestroy {
     .subscribe(
       (users: UserDto[]) => {
         this.users = users;
+        this.isLoading = false;
+      }
+    );
+    this.subscription2 = this.challengeService.userListRefreshed
+    .subscribe(
+      (response: boolean) => {
+        this.isLoading = true;
       }
     );
 
+    this.isLoading = true;
     this.challengeService.getUserDetail();
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
   onChallenge(index: number) {

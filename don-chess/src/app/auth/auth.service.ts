@@ -12,6 +12,7 @@ export class AuthService {
 
   authenticatedChanged = new Subject<boolean>();
   authenticated = false;
+  authenticatedSign = new Subject<boolean>();
   userName = new Subject<UserDto>();
   userNameDto: UserDto;
   pre: string;
@@ -24,15 +25,19 @@ export class AuthService {
 
     const header = new HttpHeaders({});
 
-    this.http.get(this.pre + '/api/user/user', {headers: header,  withCredentials: true }).subscribe(response => {
+    this.http.get(this.pre + '/api/user/user', {headers: header,  withCredentials: true })
+    .subscribe(response => {
       if (response['name']) {
           this.getUserDetail(response['name']);
           this.authenticated = true;
+          this.authenticatedSign.next(true);
           this.authenticatedChanged.next(true);
-      } else {
-          this.authenticated = false;
-          this.authenticatedChanged.next(false);
       }
+    },
+    (error) => {
+      this.authenticated = false;
+      this.authenticatedChanged.next(false);
+      this.authenticatedSign.next(false);
     });
 
   }
@@ -75,9 +80,7 @@ export class AuthService {
           password: loginData.password
         },
         {headers: header,  withCredentials: true }
-      ).subscribe( (info) => {
-        this.authenticate();
-      });
+      );
   }
 
   onRegister(registerData: RegisterDto) {
@@ -91,7 +94,7 @@ export class AuthService {
           fullName: registerData.fullName
         },
         {headers: header,  withCredentials: true }
-      ).subscribe();
+      )
   }
 
 }

@@ -16,7 +16,9 @@ export class ChallengeService {
     private users: UserDto[] = [];
     private challenges: ChallengeDto[] = [];
     usersChanged = new Subject<UserDto[]>();
+    userListRefreshed = new Subject<boolean>();
     challengeChanged = new Subject<ChallengeDto[]>();
+    challengeListRefreshed = new Subject<boolean>();
     pre: string;
 
     constructor(private http: HttpClient, private router: Router) {
@@ -24,6 +26,7 @@ export class ChallengeService {
     }
 
     getUserDetail() {
+        this.userListRefreshed.next(true);
         const header = new HttpHeaders({});
         this.http.get(this.pre + '/api/user/listOfFreeUsers', {headers: header,  withCredentials: true })
         .subscribe((response: UserDto[]) => {
@@ -33,6 +36,7 @@ export class ChallengeService {
     }
 
     getChallengeDetail() {
+        this.challengeListRefreshed.next(true);
         const header = new HttpHeaders({});
         this.http.get(this.pre + '/api/challenge/listForTheRequester', {headers: header,  withCredentials: true })
         .subscribe((response: ChallengeDto[]) => {
