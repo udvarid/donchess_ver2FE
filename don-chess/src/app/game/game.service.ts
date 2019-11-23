@@ -13,6 +13,7 @@ import { CoordinateDto } from '../shared/dto/coordinateDto.model';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { resultDto } from '../shared/dto/resultDto.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
 
@@ -32,7 +33,7 @@ export class GameService {
     newPromotion = new Subject<boolean>();
     pre: string;
 
-    constructor(private http: HttpClient, private router: Router, private authService: AuthService) {
+    constructor(private http: HttpClient, private router: Router, private authService: AuthService, private toastrService: ToastrService) {
         this.pre = environment.apiUrl;
     }
 
@@ -74,6 +75,7 @@ export class GameService {
         .subscribe((result: resultDto) => {
             console.log('Valid move happened');
             console.log(move);
+            this.toastrService.info('Valid move sent');
             this.getGameSelected(this.gameSelected.chessGameId);
             if (result.result !== Result.Open) {
                 this.endOfGameResult.next(result);

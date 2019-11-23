@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 import { Subscription } from 'rxjs';
 import { GameService } from '../game.service';
-import { ChessGameStatus, Color } from 'src/app/shared/enums/enums.model';
+import { ChessGameStatus, Color, Result } from 'src/app/shared/enums/enums.model';
 import { resultDto } from 'src/app/shared/dto/resultDto.model';
 import { ModalService } from 'src/app/shared/modal/model.service';
 
@@ -19,7 +19,11 @@ export class GameListComponent implements OnInit, OnDestroy {
   public closedGames: ChessGameDto[];
   private subscription: Subscription;
   private subscription2: Subscription;
-  public endOfGame: resultDto;
+  public endOfGame: resultDto = {
+    result: Result.Open,
+    userOne: '',
+    userTwo: '',
+  };
   public isLoading = false;
 
   constructor(private gameService: GameService, private modalService: ModalService) { }

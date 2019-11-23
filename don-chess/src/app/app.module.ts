@@ -20,6 +20,8 @@ import { GameSelectedComponent } from './game/game-selected/game-selected.compon
 import { ChessTableComponent } from './game/chess-table/chess-table.component';
 import { CellComponent } from './game/chess-table/cell/cell.component';
 import { ModalComponent } from './shared/modal/modal.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @Injectable()
@@ -53,10 +55,16 @@ export class XhrInterceptor implements HttpInterceptor {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [AuthService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
   bootstrap: [AppComponent]

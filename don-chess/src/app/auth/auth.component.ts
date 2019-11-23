@@ -3,10 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
-import { HttpClient } from '@angular/common/http';
 import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { RegisterDto } from '../shared/dto/registerDto.model';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -21,16 +21,18 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router, private http: HttpClient) {
+  constructor(private authService: AuthService, private router: Router, private toastrService: ToastrService) {
     this.authService.authenticate();
   }
 
   ngOnInit() {
     this.subscription = this.authService.authenticatedSign.subscribe( (response: boolean) => {
       if (response === true) {
+        this.toastrService.success('Succesfull login');
         this.isLoading = false;
         this.router.navigate(['/info']);
       } else {
+        this.toastrService.warning('Unsuccesfull login');
         this.isLoading = false;
       }
     });
@@ -53,6 +55,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     if (this.isLoginMode) {
+      this.toastrService.info('Login attempt');
       const userLogin: UserLoginDto = {
         password: form.value.password,
         username: form.value.email,
@@ -61,6 +64,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.authService.authenticate();
       });
     } else {
+      this.toastrService.info('Registration sent');
       const userRegister: RegisterDto = {
         email: form.value.email,
         password: form.value.password,

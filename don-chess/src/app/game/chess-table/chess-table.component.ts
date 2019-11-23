@@ -3,7 +3,7 @@ import { GameService } from '../game.service';
 import { Subscription } from 'rxjs';
 import { Cell } from 'src/app/shared/chessTable.model';
 import { ModalService } from 'src/app/shared/modal/model.service';
-import { ChessFigure, PromoteType, Color } from 'src/app/shared/enums/enums.model';
+import { PromoteType, Color } from 'src/app/shared/enums/enums.model';
 
 
 @Component({

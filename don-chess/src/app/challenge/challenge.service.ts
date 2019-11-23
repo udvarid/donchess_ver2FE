@@ -7,6 +7,7 @@ import { ChallengeCreateDto } from '../shared/dto/challengeCreateDto.model';
 import { ChallengeDto } from '../shared/dto/challengeDto.model';
 import { ChallengeActionDto } from '../shared/dto/challengeActionDto.model';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +22,7 @@ export class ChallengeService {
     challengeListRefreshed = new Subject<boolean>();
     pre: string;
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient, private router: Router, private toastrService: ToastrService) {
         this.pre = environment.apiUrl;
     }
 
@@ -48,6 +49,7 @@ export class ChallengeService {
     challengeUser(challengedDto: ChallengeCreateDto) {
         const header = new HttpHeaders({});
         this.http.post(this.pre + '/api/challenge/create', challengedDto, {headers: header,  withCredentials: true }).subscribe( ans => {
+            this.toastrService.success('Challenge set');
             this.getUserDetail();
             this.getChallengeDetail();
         }
@@ -57,6 +59,7 @@ export class ChallengeService {
     handleChallenge(answer: ChallengeActionDto) {
         const header = new HttpHeaders({});
         this.http.post(this.pre + '/api/challenge/answer', answer, {headers: header,  withCredentials: true }).subscribe( ans => {
+            this.toastrService.success('Challenge answered');
             this.getUserDetail();
             this.getChallengeDetail();
         }
