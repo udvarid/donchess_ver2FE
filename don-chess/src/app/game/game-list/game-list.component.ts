@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { GameService } from '../game.service';
 import { ChessGameStatus, Color, Result } from 'src/app/shared/enums/enums.model';
 import { resultDto } from 'src/app/shared/dto/resultDto.model';
-import { ModalService } from 'src/app/shared/modal/model.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   };
   public isLoading = false;
 
-  constructor(private gameService: GameService, private modalService: ModalService) { }
+  constructor(private gameService: GameService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.subscription = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
@@ -39,7 +39,9 @@ export class GameListComponent implements OnInit, OnDestroy {
     });
     this.subscription2 = this.gameService.endOfGameResult.subscribe((result: resultDto) => {
         this.endOfGame = result;
-        this.modalService.open('end-of-game-modal');
+        this.toastrService.warning(this.endOfGame.result, '', {
+          timeOut: 5000
+        });
         this.isLoading = true;
         this.gameService.getGameList();
     });

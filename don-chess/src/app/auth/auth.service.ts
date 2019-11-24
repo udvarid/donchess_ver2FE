@@ -60,7 +60,9 @@ export class AuthService {
     const header = new HttpHeaders({});
     this.authenticated = false;
     this.http.post(this.pre + '/logout', {}, {headers: header,  withCredentials: true }).subscribe();
-    this.toastrService.info('You have logged out!');
+    this.toastrService.warning('You have logged out!', '', {
+      timeOut: 5000
+    });
     this.authenticatedChanged.next(false);
     const emptyUser: UserDto = {
       id: null,

@@ -75,7 +75,9 @@ export class GameService {
         .subscribe((result: resultDto) => {
             console.log('Valid move happened');
             console.log(move);
-            this.toastrService.info('Valid move sent');
+            this.toastrService.info('Valid move sent', '', {
+                timeOut: 5000
+            });
             this.getGameSelected(this.gameSelected.chessGameId);
             if (result.result !== Result.Open) {
                 this.endOfGameResult.next(result);
