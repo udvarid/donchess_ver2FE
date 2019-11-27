@@ -98,7 +98,7 @@ export class AuthService {
           fullName: registerData.fullName
         },
         {headers: header,  withCredentials: true }
-      )
+      );
   }
 
 }

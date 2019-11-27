@@ -7,6 +7,7 @@ import { UserLoginDto } from '../shared/dto/userLoginDto.model';
 import { RegisterDto } from '../shared/dto/registerDto.model';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../shared/service/common.service';
 
 
 @Component({
@@ -20,8 +21,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoading = false;
   error: string = null;
   private subscription: Subscription = new Subscription();
+  private endLoadingSigner: Subscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router, private toastrService: ToastrService) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private toastrService: ToastrService,
+              private commonService: CommonService) {
     this.authService.authenticate();
   }
 
@@ -29,17 +34,19 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.authenticatedSign.subscribe( (response: boolean) => {
       if (response === true) {
         this.toastrService.success('Succesfull login');
-        this.isLoading = false;
         this.router.navigate(['/info']);
-      } else {
-        this.toastrService.warning('Unsuccesfull login');
-        this.isLoading = false;
       }
     });
+    this.endLoadingSigner = this.commonService.httpAnswer.subscribe( (response: boolean) => {
+      this.isLoading = false;
+    }
+
+    );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.endLoadingSigner.unsubscribe();
   }
 
 
@@ -71,9 +78,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         fullName: form.value.fullName,
       };
       this.authService.onRegister(userRegister).subscribe( () => {
-        this.isLoading = false;
         this.router.navigate(['/info']);
-      });
+      })
+      ;
     }
 
     form.reset();

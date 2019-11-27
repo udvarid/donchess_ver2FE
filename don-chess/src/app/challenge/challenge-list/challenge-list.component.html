@@ -1,56 +1,59 @@
-<div class="column">
-    <div class="col-xs-5">
-        <!-- FIXME erre esetleg külön kis komponenst csinálni -->
+<strong>Challenges</strong>
+<div *ngIf="isLoading" style="text-align: center;">
+    <app-loading-spinner></app-loading-spinner>
+</div>        
+<div class="column" *ngIf="!isLoading">
+    <div class="col-md-9">
         <hr>
-        <p>My Challenges</p>
-        <div *ngIf="isLoading" style="text-align: center;">
-            <app-loading-spinner></app-loading-spinner>
-        </div>        
-        <ul class="list-group" *ngIf="!isLoading">
-        <a
-            class="list-group-item"
-            style="cursor: pointer"
-            *ngFor="let challenge of myChallenges; let i = index"            
-        >
-            {{ challenge.challengerName }} ------- {{ challenge.challengedName }}
-            <button type="button" (click)="onDeleteMyChallenge(i)">Delete</button>
-        </a>
+        <em>My challenges</em>
+        <ul class="list-group">
+            <a
+                class="list-group-item challenge-mine"
+                style="cursor: pointer"
+                *ngFor="let challenge of myChallenges; let i = index"            
+            >
+                <span class="col-md-9">
+                    {{ i }}. challenge. Challenged: {{ challenge.challengedName ? challenge.challengedName : "free" }}
+                </span>
+                
+                <button type="button" class="btn btn-danger" (click)="onDeleteMyChallenge(i)">Delete</button>
+            </a>
         </ul>
 
         <hr>
-        <p>Free Challenges</p>
-        <div *ngIf="isLoading" style="text-align: center;">
-            <app-loading-spinner></app-loading-spinner>
-        </div>            
-        <ul class="list-group" *ngIf="!isLoading">
+        <em>Free challenges to accept</em>
+        <ul class="list-group">
         <a
-            class="list-group-item"
+            class="list-group-item challenge-free"
             style="cursor: pointer"
             *ngFor="let challenge of freeChallenges; let i = index"            
         >
-            {{ challenge.challengerName }} 
-            <button type="button" (click)="onAcceptFreeChallenge(i)">Accept</button>
+            <span class="col-md-9">
+                {{ i }}. free challenge. Challenger: {{ challenge.challengerName }} 
+            </span>
+            
+            <button type="button" class="btn btn-success" (click)="onAcceptFreeChallenge(i)">Accept</button>
         </a>
         </ul>
 
         <hr>
-        <p>Challenges on me</p>
-        <div *ngIf="isLoading" style="text-align: center;">
-            <app-loading-spinner></app-loading-spinner>
-        </div>            
-        <ul class="list-group" *ngIf="!isLoading">
+        <em>Challenges on me</em>
+        <ul class="list-group">
         <a
-            class="list-group-item"
+            class="list-group-item challenge-onme"
             style="cursor: pointer"
             *ngFor="let challenge of challengesOnMe; let i = index"            
         >
-            {{ challenge.challengerName }} ------- {{ challenge.challengedName }}
-            <button type="button" (click)="onAcceptAimedChallenge(i)">Accept</button>
-            <button type="button" (click)="onDeclineChallenge(i)">Decline</button>
+            <span class="col-md-8">
+                {{ i }}. challenge. Challenger:  {{ challenge.challengerName }} 
+            </span>
+            
+            <button type="button" class="btn btn-success" (click)="onAcceptAimedChallenge(i)">Accept</button>
+            <button type="button" class="btn btn-warning" (click)="onDeclineChallenge(i)">Decline</button>
         </a>
         </ul>
 
-        <button type="button" (click)="onCreateFreeChallenge()">Create free challenge</button>
+        <button type="button" class="btn btn-info" (click)="onCreateFreeChallenge()">Create free challenge</button>
 
     </div>
 </div>

@@ -22,6 +22,7 @@ import { CellComponent } from './game/chess-table/cell/cell.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppHttpInterceptor } from './shared/interceptor/http.interceptor';
 
 
 @Injectable()
@@ -66,7 +67,10 @@ export class XhrInterceptor implements HttpInterceptor {
       preventDuplicates: true,
     })
   ],
-  providers: [AuthService, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  providers: [AuthService,
+             { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true },
+             { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
