@@ -4,8 +4,9 @@
 </div>        
 <div class="column" *ngIf="!isLoading">
     <div class="col-md-9">
-        <hr>
-        <em>My challenges</em>
+        
+        <em *ngIf="myChallenges.length > 0"> <hr> My challenges</em>        
+        
         <ul class="list-group">
             <a
                 class="list-group-item challenge-mine"
@@ -19,9 +20,9 @@
                 <button type="button" class="btn btn-danger" (click)="onDeleteMyChallenge(i)">Delete</button>
             </a>
         </ul>
-
-        <hr>
-        <em>Free challenges to accept</em>
+    
+        <em *ngIf="freeChallenges.length > 0"> <hr> Free challenges to accept</em>        
+        
         <ul class="list-group">
         <a
             class="list-group-item challenge-free"
@@ -36,8 +37,9 @@
         </a>
         </ul>
 
-        <hr>
-        <em>Challenges on me</em>
+        
+        <em *ngIf="challengesOnMe.length > 0"> <hr> Challenges on me</em>        
+        
         <ul class="list-group">
         <a
             class="list-group-item challenge-onme"
@@ -47,11 +49,13 @@
             <span class="col-md-8">
                 {{ i }}. challenge. Challenger:  {{ challenge.challengerName }} 
             </span>
-            
+
             <button type="button" class="btn btn-success" (click)="onAcceptAimedChallenge(i)">Accept</button>
             <button type="button" class="btn btn-warning" (click)="onDeclineChallenge(i)">Decline</button>
+
         </a>
         </ul>
+        <hr>
 
         <button type="button" class="btn btn-info" (click)="onCreateFreeChallenge()">Create free challenge</button>
 

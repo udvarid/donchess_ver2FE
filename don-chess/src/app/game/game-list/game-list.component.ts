@@ -3,7 +3,7 @@ import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 import { Subscription } from 'rxjs';
 import { GameService } from '../game.service';
 import { ChessGameStatus, Color, Result } from 'src/app/shared/enums/enums.model';
-import { resultDto } from 'src/app/shared/dto/resultDto.model';
+import { ResultDto } from 'src/app/shared/dto/resultDto.model';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -19,27 +19,29 @@ export class GameListComponent implements OnInit, OnDestroy {
   public closedGames: ChessGameDto[];
   private subscription: Subscription;
   private subscription2: Subscription;
-  public endOfGame: resultDto = {
+  public endOfGame: ResultDto = {
     result: Result.Open,
     userOne: '',
     userTwo: '',
   };
   public isLoading = false;
+  public activeShown = true;
+
 
   constructor(private gameService: GameService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.subscription = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
-      this.games = response;
       this.openGames = response.filter(game => game.chessGameStatus === ChessGameStatus.Open);
       this.closedGames = response.filter(game => game.chessGameStatus !== ChessGameStatus.Open);
       this.openGames = this.openGames.filter(game => this.amINext(game))
                   .concat(this.openGames.filter(game => !this.amINext(game)));
       this.isLoading = false;
+      this.games = this.openGames.slice();
     });
-    this.subscription2 = this.gameService.endOfGameResult.subscribe((result: resultDto) => {
+    this.subscription2 = this.gameService.endOfGameResult.subscribe((result: ResultDto) => {
         this.endOfGame = result;
-        this.toastrService.warning(this.endOfGame.result, '', {
+        this.toastrService.warning(this.gameService.niceResult(this.endOfGame), '', {
           timeOut: 5000
         });
         this.isLoading = true;
@@ -50,7 +52,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   }
 
   onSelect(index: number) {
-    this.gameService.getGameSelected(this.openGames[index].chessGameId);
+    this.gameService.getGameSelected(this.games[index].chessGameId);
   }
 
   onSelectClosed(index: number) {
@@ -64,6 +66,26 @@ export class GameListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.subscription2.unsubscribe();
+  }
+
+  onActiveGames() {
+    this.games = this.openGames.slice();
+    this.activeShown = true;
+  }
+
+  onClosedGames() {
+    this.games = this.closedGames.slice();
+    this.activeShown = false;
+  }
+
+  niceResult(game: ChessGameDto): string {
+
+    const result: ResultDto = {
+      result: game.result,
+      userOne: game.userOne.fullName,
+      userTwo: game.userTwo.fullName
+    };
+    return this.gameService.niceResult(result);
   }
 
 }

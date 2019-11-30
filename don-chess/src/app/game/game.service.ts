@@ -12,7 +12,7 @@ import { Color, PromoteType, ChessFigure, Result } from '../shared/enums/enums.m
 import { CoordinateDto } from '../shared/dto/coordinateDto.model';
 import { AuthService } from '../auth/auth.service';
 import { environment } from 'src/environments/environment';
-import { resultDto } from '../shared/dto/resultDto.model';
+import { ResultDto } from '../shared/dto/resultDto.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({ providedIn: 'root' })
@@ -29,7 +29,7 @@ export class GameService {
     gameSelectedChange = new Subject<ChessTableDto>();
     gameValidMovesChange = new Subject<ValidMovesDto>();
     chessTableChanged = new Subject<Cell[][]>();
-    endOfGameResult = new Subject<resultDto>();
+    endOfGameResult = new Subject<ResultDto>();
     newPromotion = new Subject<boolean>();
     pre: string;
 
@@ -72,7 +72,7 @@ export class GameService {
     makeMove(move: ChessMoveDto) {
         const header = new HttpHeaders({});
         this.http.post(this.pre + '/api/game/move', move, {headers: header,  withCredentials: true })
-        .subscribe((result: resultDto) => {
+        .subscribe((result: ResultDto) => {
             console.log('Valid move happened');
             console.log(move);
             this.toastrService.info('Valid move sent', '', {
@@ -188,13 +188,27 @@ export class GameService {
       resign(gameId: number) {
         const header = new HttpHeaders({});
         this.http.get(this.pre + '/api/game/giveUp/' + gameId, {headers: header,  withCredentials: true })
-        .subscribe((result: resultDto) => {
+        .subscribe((result: ResultDto) => {
             this.endOfGameResult.next(result);
         });
       }
 
       getActualColor(): Color {
           return this.gameSelected.nextMove;
+      }
+
+      niceResult(result: ResultDto): string {
+        let niceResult: string;
+        if (result.result === Result.Drawn) {
+          niceResult = 'Drawn';
+        } else if (result.result === Result.Won_User_One) {
+          niceResult = 'Winner is ' + result.userOne;
+        } else if (result.result === Result.Won_User_Two) {
+           niceResult = 'Winner is ' + result.userTwo;
+        } else {
+           niceResult = 'Open';
+        }
+        return niceResult;
       }
 
 }

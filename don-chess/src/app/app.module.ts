@@ -16,7 +16,6 @@ import { AuthService } from './auth/auth.service';
 import { UserListComponent } from './challenge/user-list/user-list.component';
 import { ChallengeListComponent } from './challenge/challenge-list/challenge-list.component';
 import { GameListComponent } from './game/game-list/game-list.component';
-import { GameSelectedComponent } from './game/game-selected/game-selected.component';
 import { ChessTableComponent } from './game/chess-table/chess-table.component';
 import { CellComponent } from './game/chess-table/cell/cell.component';
 import { ModalComponent } from './shared/modal/modal.component';
@@ -49,7 +48,6 @@ export class XhrInterceptor implements HttpInterceptor {
     UserListComponent,
     ChallengeListComponent,
     GameListComponent,
-    GameSelectedComponent,
     ChessTableComponent,
     CellComponent,
     ModalComponent

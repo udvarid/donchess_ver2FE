@@ -1,13 +1,12 @@
-<div class="wrapper">
-    <div class="header">
-        <div *ngIf="gameSelected">
-            <app-game-selected [gameSelected]="gameSelected"></app-game-selected>
-            <hr>
-        </div>
+<div>
+    <div class="col-md-4">
         <app-game-list></app-game-list>
     </div>
-    <div class="main">
+    <div class="col-md-6">
         <app-chess-table *ngIf="gameSelected"></app-chess-table>       
-        <button *ngIf="gameSelected && amINext(gameSelected)" (click)="onResign()">Feladom</button>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-info" *ngIf="gameSelected && amINext(gameSelected)" (click)="onResign()">Feladom</button>
     </div>
 </div>
+

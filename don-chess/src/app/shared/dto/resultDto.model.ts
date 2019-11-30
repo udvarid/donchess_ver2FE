@@ -1,6 +1,6 @@
 import { Result } from '../enums/enums.model';
 
-export interface resultDto {
+export interface ResultDto {
 
     result: Result;
 

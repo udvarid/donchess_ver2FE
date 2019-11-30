@@ -2,48 +2,32 @@
     <app-loading-spinner></app-loading-spinner>
 </div>        
 <div *ngIf="!isLoading">
-  Your active games
-  <div class="column">
-    <div class="col-xs-20">
-      <hr>
-      <ul class="list-group">
-        <a
-          class="list-group-item"
-          style="cursor: pointer"
-          *ngFor="let game of openGames; let i = index"
-          (click)="onSelect(i)"
-        >
-          White: {{ game.userOne.fullName }} --- 
-          Black: {{ game.userTwo.fullName }} --- 
-          Move: {{ game.lastMoveId }} --- 
-          Next: {{ game.nextMove }}
-          <span *ngIf="amINext(game)"> --- Your Move!</span>
-        </a>
-      </ul>
-    </div>
-  </div>
-  <br>
-  -------------------------------------
-  <br>
-  Your closed games
-  <br>
-  <div class="column">
-    <div class="col-xs-20">
-      <hr>
-      <ul class="list-group">
-        <a
-          class="list-group-item"
-          style="cursor: pointer"
-          *ngFor="let game of closedGames; let i = index"
-          (click)="onSelectClosed(i)"
-        >
-          White: {{ game.userOne.fullName }} --- 
-          Black: {{ game.userTwo.fullName }} --- 
-          Result: {{ game.result }}
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" [ngClass]="{'game-nav': activeShown}" (click)="onActiveGames()"><em>Active games</em></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [ngClass]="{'game-nav': !activeShown}" (click)="onClosedGames()"><em>Closed games</em></a>
+    </li>
+  </ul>
+  <ul class="list-group"> 
+    <a
+      class="list-group-item"
+      style="cursor: pointer"
+      *ngFor="let game of games; let i = index"
+      (click)="onSelect(i)"
+    >
+        <strong>White:</strong> {{ game.userOne.fullName }} vs. 
+        <strong>Black:</strong> {{ game.userTwo.fullName }}
+        <br> 
+        <span *ngIf="activeShown"><strong>Move:  </strong>{{ game.lastMoveId }}</span>
+        <span *ngIf="!activeShown"><strong>Result: </strong>{{ niceResult(game) }}</span>
+     
+        <span class="badge badge-info" *ngIf="amINext(game) && activeShown"> Your Move!</span>
+    
+    </a>
+  </ul>
 
-        </a>
-      </ul>
-    </div>
-  </div>
+
 
 </div>
