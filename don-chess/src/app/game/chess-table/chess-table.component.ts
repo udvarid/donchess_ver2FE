@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Cell } from 'src/app/shared/chessTable.model';
 import { ModalService } from 'src/app/shared/modal/model.service';
 import { PromoteType, Color } from 'src/app/shared/enums/enums.model';
+import { ChessTableDto } from 'src/app/shared/dto/chessTableDto.model';
+import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 
 
 @Component({
@@ -17,12 +19,14 @@ export class ChessTableComponent implements OnInit, OnDestroy {
   private subscription2: Subscription;
   public table: Cell[][] = [];
   public selectedCellToSend: Cell;
+  public tableIsReady = false;
 
   constructor(private gameService: GameService, private modalService: ModalService) { }
 
   ngOnInit() {
     this.subscription = this.gameService.chessTableChanged.subscribe((response: Cell[][]) => {
       this.table = response;
+      this.tableIsReady = true;
     });
     this.subscription2 = this.gameService.newPromotion.subscribe(() => {
       this.gameService.clickOnCell(this.selectedCellToSend);
@@ -36,6 +40,10 @@ export class ChessTableComponent implements OnInit, OnDestroy {
     } else {
       this.modalService.open('promotion-modal');
     }
+  }
+
+  public openModal() {
+    this.modalService.open('promotion-modal');
   }
 
   isItWhite(): boolean {
@@ -66,6 +74,10 @@ export class ChessTableComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.subscription2.unsubscribe();
+  }
+
+  getSelectedGame(): ChessGameDto {
+    return this.gameService.gameSelected;
   }
 
 }

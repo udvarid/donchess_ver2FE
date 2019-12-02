@@ -1,4 +1,5 @@
 <div>
+    <strong *ngIf="tableIsReady">{{ getSelectedGame().userTwo.fullName }}</strong>
     <div class="chess-container"
         *ngFor="let row of table; let i = index;">
         <a class="chess-row"
@@ -8,10 +9,14 @@
             <app-cell [cell]="cell"></app-cell>
         </a>    
     </div> 
+    <strong *ngIf="tableIsReady">{{ getSelectedGame().userOne.fullName }}</strong>
     <br>  
 </div>
 
 <jw-modal id="promotion-modal">
+
+    <strong>Promote to...</strong>
+    <hr>
 
     <a (click)="onSelectedQueen()">
         <img *ngIf="isItWhite()" src="assets/picture/QueenWhite.png" alt="">

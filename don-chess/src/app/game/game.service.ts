@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 export class GameService {
 
     private games: ChessGameDto[] = [];
-    private gameSelected: ChessTableDto;
+    public gameSelected: ChessTableDto;
     private gameValidMoves: ValidMovesDto;
     private selectedCell: Cell = null;
     private table: Cell[][] = [];
@@ -73,8 +73,6 @@ export class GameService {
         const header = new HttpHeaders({});
         this.http.post(this.pre + '/api/game/move', move, {headers: header,  withCredentials: true })
         .subscribe((result: ResultDto) => {
-            console.log('Valid move happened');
-            console.log(move);
             this.toastrService.info('Valid move sent', '', {
                 timeOut: 5000
             });
@@ -89,12 +87,10 @@ export class GameService {
     clickOnCell(clickedCell: Cell) {
         if (clickedCell.targets.length > 0) {
             this.selectedCell = clickedCell;
-            console.log('Selected cell has been changed');
             this.createTable();
             return;
         }
         if (this.selectedCell === null) {
-            console.log('There is no valid moves');
             return;
         }
         if (this.selectedCell.targets.find(cell =>
@@ -110,10 +106,8 @@ export class GameService {
                 promoteToFigure: this.canBePromoted(clickedCell) ? this.promotedFigure : ''
             };
             this.selectedCell = null;
-            console.log('Move has been made');
             this.makeMove(move);
         } else {
-            console.log('Selected cell has been unselected');
             this.selectedCell = null;
             this.createTable();
         }
@@ -133,7 +127,6 @@ export class GameService {
         const amINextPlayer: boolean = this.amINext(this.gameSelected);
         const selectedTargets: CellTarget[] = this.selectedCell ?
                                               this.getTargets(this.selectedCell.coordX + 1, this.selectedCell.coordY + 1) : [];
-        console.log(selectedTargets);
         for (let i = 0; i < 8; i++) {
           this.table[i] = [];
           for (let j = 0; j < 8; j++) {
@@ -154,7 +147,6 @@ export class GameService {
           }
         }
         this.chessTableChanged.next(this.table);
-        console.log(this.table);
       }
 
       getFigure(row: number, column: number): FigureDto {

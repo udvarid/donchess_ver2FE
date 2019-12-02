@@ -10,7 +10,7 @@
             <a routerLink="/info" style="background-color: rgb(62, 62, 117); color: white;">Info</a>
         </li>    
         <li routerLinkActive="active" *ngIf="!isAuthenticated">
-          <a routerLink="/auth" style="background-color: rgb(62, 62, 117); color: white;">Authorization</a>
+          <a routerLink="/auth" style="background-color: rgb(62, 62, 117); color: white;">Login / Sign Up</a>
         </li>
         <li routerLinkActive="active" *ngIf="isAuthenticated">
           <a routerLink="/challenge" style="background-color: rgb(62, 62, 117); color: white;">Challenges</a>

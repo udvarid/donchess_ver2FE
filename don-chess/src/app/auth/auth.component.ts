@@ -71,7 +71,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.authService.authenticate();
       });
     } else {
-      this.toastrService.info('Registration sent');
+      this.toastrService.info('Registration sent, you will receive a confirmation email!', '', {
+        timeOut: 5000
+      });
       const userRegister: RegisterDto = {
         email: form.value.email,
         password: form.value.password,
