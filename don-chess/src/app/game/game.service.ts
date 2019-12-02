@@ -32,6 +32,7 @@ export class GameService {
     endOfGameResult = new Subject<ResultDto>();
     newPromotion = new Subject<boolean>();
     pre: string;
+    drawOffered = false;
 
     constructor(private http: HttpClient, private router: Router, private authService: AuthService, private toastrService: ToastrService) {
         this.pre = environment.apiUrl;
@@ -55,6 +56,7 @@ export class GameService {
         this.http.get(this.pre + '/api/game/' + index, {headers: header,  withCredentials: true }).subscribe((response: ChessTableDto) => {
             this.gameSelected = response;
             this.gameSelectedChange.next(response);
+            this.drawOffered = false;
             this.getGameValidMoves(index);
         });
     }
@@ -103,7 +105,8 @@ export class GameService {
                 moveFromY: this.selectedCell.coordX + 1,
                 moveToX: clickedCell.coordY + 1,
                 moveToY: clickedCell.coordX + 1,
-                promoteToFigure: this.canBePromoted(clickedCell) ? this.promotedFigure : ''
+                promoteToFigure: this.canBePromoted(clickedCell) ? this.promotedFigure : '',
+                drawOffered: this.drawOffered
             };
             this.selectedCell = null;
             this.makeMove(move);
@@ -183,6 +186,19 @@ export class GameService {
         .subscribe((result: ResultDto) => {
             this.endOfGameResult.next(result);
         });
+      }
+
+      acceptDraw(gameId: number) {
+        const header = new HttpHeaders({});
+        this.http.get(this.pre + '/api/game/acceptDraw/' + gameId, {headers: header,  withCredentials: true })
+        .subscribe((result: ResultDto) => {
+            this.endOfGameResult.next(result);
+        });
+      }
+
+
+      offerDraw() {
+        this.drawOffered = !this.drawOffered;
       }
 
       getActualColor(): Color {

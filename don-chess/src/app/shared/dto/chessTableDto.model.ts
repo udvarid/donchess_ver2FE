@@ -12,4 +12,5 @@ export interface ChessTableDto {
     nextMove: Color;
     lastMoveId: number;
     figures: FigureDto[];
+    drawOffered: boolean;
 }

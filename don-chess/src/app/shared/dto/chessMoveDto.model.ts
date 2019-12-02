@@ -6,4 +6,5 @@ export interface ChessMoveDto {
     moveToX: number;
     moveToY: number;
     promoteToFigure: string;
+    drawOffered: boolean;
 }

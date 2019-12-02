@@ -41,4 +41,16 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameService.resign(this.gameSelected.chessGameId);
   }
 
+  onDrawOffer() {
+    this.gameService.offerDraw();
+  }
+
+  onAcceptDraw() {
+    this.gameService.acceptDraw(this.gameSelected.chessGameId);
+  }
+
+  isDrawOffered(): boolean {
+    return this.gameService.drawOffered;
+  }
+
 }
