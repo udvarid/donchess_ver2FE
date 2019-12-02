@@ -18,10 +18,11 @@
         <br>
         <br>
         <br>
-        <strong><em>A draw offer arraived!</em></strong>
-        <button *ngIf="gameSelected.drawOffered" 
-                class="btn btn-warning"
-                (click)="onAcceptDraw()">Accept draw offer!</button>
+        <div *ngIf="gameSelected.drawOffered">
+            <strong><em>A draw offer arraived!</em></strong>
+            <button class="btn btn-warning"
+                    (click)="onAcceptDraw()">Accept draw offer!</button>
+        </div>
     </div>
 </div>
 
