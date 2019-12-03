@@ -12,8 +12,9 @@
                 [class.btn-dark]="!isDrawOffered()"
                 [class.btn-danger]="isDrawOffered()"
                 (click)="onDrawOffer()">
-                {{ isDrawOffered() ? 'Draw Offered!!!' : 'Draw' }}
+                Draw                
         </button>
+        {{ isDrawOffered() ? 'Draw Offered!!!' : '' }}
 
         <br>
         <br>
@@ -23,6 +24,20 @@
             <button class="btn btn-warning"
                     (click)="onAcceptDraw()">Accept draw offer!</button>
         </div>
+
     </div>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <br>
+    <div *ngIf="gameSelected">
+        <strong><em>Move history: </em></strong>
+        <br>
+        <div class="move-history">
+            {{ gameSelected.moveHistory }}
+        </div>
+    </div>
+
 </div>
 

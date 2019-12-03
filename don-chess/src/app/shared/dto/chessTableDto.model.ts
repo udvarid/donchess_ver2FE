@@ -13,4 +13,5 @@ export interface ChessTableDto {
     lastMoveId: number;
     figures: FigureDto[];
     drawOffered: boolean;
+    moveHistory: string;
 }

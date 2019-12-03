@@ -8,7 +8,7 @@ import { Result } from '../shared/enums/enums.model';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, OnDestroy {
 
