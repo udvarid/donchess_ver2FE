@@ -15,8 +15,8 @@ import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 })
 export class ChessTableComponent implements OnInit, OnDestroy {
 
-  private subscription: Subscription;
-  private subscription2: Subscription;
+  private chessTableChangedSubs: Subscription;
+  private newPromotionSubs: Subscription;
   public table: Cell[][] = [];
   public selectedCellToSend: Cell;
   public tableIsReady = false;
@@ -24,11 +24,11 @@ export class ChessTableComponent implements OnInit, OnDestroy {
   constructor(private gameService: GameService, private modalService: ModalService) { }
 
   ngOnInit() {
-    this.subscription = this.gameService.chessTableChanged.subscribe((response: Cell[][]) => {
+    this.chessTableChangedSubs = this.gameService.chessTableChanged.subscribe((response: Cell[][]) => {
       this.table = response;
       this.tableIsReady = true;
     });
-    this.subscription2 = this.gameService.newPromotion.subscribe(() => {
+    this.newPromotionSubs = this.gameService.newPromotion.subscribe(() => {
       this.gameService.clickOnCell(this.selectedCellToSend);
     });
   }
@@ -72,8 +72,8 @@ export class ChessTableComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    this.chessTableChangedSubs.unsubscribe();
+    this.newPromotionSubs.unsubscribe();
   }
 
   getSelectedGame(): ChessGameDto {

@@ -17,8 +17,8 @@ export class GameListComponent implements OnInit, OnDestroy {
   private games: ChessGameDto[];
   public openGames: ChessGameDto[];
   public closedGames: ChessGameDto[];
-  private subscription: Subscription;
-  private subscription2: Subscription;
+  private gameChangedSubs: Subscription;
+  private eogSubs: Subscription;
   public endOfGame: ResultDto = {
     result: Result.Open,
     userOne: '',
@@ -31,7 +31,7 @@ export class GameListComponent implements OnInit, OnDestroy {
   constructor(private gameService: GameService, private toastrService: ToastrService) { }
 
   ngOnInit() {
-    this.subscription = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
+    this.gameChangedSubs = this.gameService.gamesChanged.subscribe((response: ChessGameDto[]) => {
       this.openGames = response.filter(game => game.chessGameStatus === ChessGameStatus.Open);
       this.closedGames = response.filter(game => game.chessGameStatus !== ChessGameStatus.Open);
       this.openGames = this.openGames.filter(game => this.amINext(game))
@@ -39,7 +39,7 @@ export class GameListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       this.games = this.openGames.slice();
     });
-    this.subscription2 = this.gameService.endOfGameResult.subscribe((result: ResultDto) => {
+    this.eogSubs = this.gameService.endOfGameResult.subscribe((result: ResultDto) => {
         this.endOfGame = result;
         this.toastrService.warning(this.gameService.niceResult(this.endOfGame), '', {
           timeOut: 5000
@@ -64,8 +64,8 @@ export class GameListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    this.gameChangedSubs.unsubscribe();
+    this.eogSubs.unsubscribe();
   }
 
   onActiveGames() {

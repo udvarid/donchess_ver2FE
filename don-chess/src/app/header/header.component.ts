@@ -12,15 +12,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   userName = '';
 
-  subscription: Subscription;
-  subscription2: Subscription;
+  authChangedSubs: Subscription;
+  userNameSubs: Subscription;
 
 
   constructor(private authService: AuthService, private router: Router, private http: HttpClient ) { }
 
   ngOnInit() {
-    this.subscription = this.authService.authenticatedChanged.subscribe(auth => this.isAuthenticated = auth);
-    this.subscription2 = this.authService.userName.subscribe(name => {
+    this.authChangedSubs = this.authService.authenticatedChanged.subscribe(auth => this.isAuthenticated = auth);
+    this.userNameSubs = this.authService.userName.subscribe(name => {
       this.userName = name.fullName;
     });
   }
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    this.authChangedSubs.unsubscribe();
+    this.userNameSubs.unsubscribe();
   }
 }

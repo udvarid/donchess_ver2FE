@@ -12,21 +12,21 @@ import { ChallengeCreateDto } from 'src/app/shared/dto/challengeCreateDto.model'
 export class UserListComponent implements OnInit, OnDestroy {
 
   public users: UserDto[];
-  private subscription: Subscription;
-  private subscription2: Subscription;
+  private userChangedSubs: Subscription;
+  private userListRefreshedSubs: Subscription;
   public isLoading = false;
 
   constructor(private challengeService: ChallengeService) { }
 
   ngOnInit() {
-    this.subscription = this.challengeService.usersChanged
+    this.userChangedSubs = this.challengeService.usersChanged
     .subscribe(
       (users: UserDto[]) => {
         this.users = users;
         this.isLoading = false;
       }
     );
-    this.subscription2 = this.challengeService.userListRefreshed
+    this.userListRefreshedSubs = this.challengeService.userListRefreshed
     .subscribe(
       (response: boolean) => {
         this.isLoading = true;
@@ -38,8 +38,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    this.userChangedSubs.unsubscribe();
+    this.userListRefreshedSubs.unsubscribe();
   }
 
   onChallenge(index: number) {

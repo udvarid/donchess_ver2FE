@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   isLoading = false;
   error: string = null;
-  private subscription: Subscription = new Subscription();
+  private authSubs: Subscription = new Subscription();
   private endLoadingSigner: Subscription = new Subscription();
 
   constructor(private authService: AuthService,
@@ -31,7 +31,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.authService.authenticatedSign.subscribe( (response: boolean) => {
+    this.authSubs = this.authService.authenticatedSign.subscribe( (response: boolean) => {
       if (response === true) {
         this.toastrService.success('Succesfull login');
         this.router.navigate(['/info']);
@@ -45,7 +45,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.authSubs.unsubscribe();
     this.endLoadingSigner.unsubscribe();
   }
 

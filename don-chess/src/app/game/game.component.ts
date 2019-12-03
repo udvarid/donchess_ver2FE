@@ -13,24 +13,24 @@ import { Result } from '../shared/enums/enums.model';
 export class GameComponent implements OnInit, OnDestroy {
 
   public gameSelected: ChessTableDto = null;
-  private subscription: Subscription;
-  private subscription2: Subscription;
+  private selectedGameSubs: Subscription;
+  private eogSubs: Subscription;
 
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.subscription = this.gameService.gameSelectedChange.subscribe((game: ChessTableDto) => {
+    this.selectedGameSubs = this.gameService.gameSelectedChange.subscribe((game: ChessTableDto) => {
       this.gameSelected = game;
     });
-    this.subscription2 = this.gameService.endOfGameResult.subscribe(() => {
+    this.eogSubs = this.gameService.endOfGameResult.subscribe(() => {
       this.gameSelected = null;
     });
 
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
-    this.subscription2.unsubscribe();
+    this.selectedGameSubs.unsubscribe();
+    this.eogSubs.unsubscribe();
   }
 
   amINext(game: ChessGameDto): boolean {
