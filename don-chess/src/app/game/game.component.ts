@@ -15,6 +15,9 @@ export class GameComponent implements OnInit, OnDestroy {
   public gameSelected: ChessTableDto = null;
   private selectedGameSubs: Subscription;
   private eogSubs: Subscription;
+  private chessTableLoadSign: Subscription;
+
+  private chessTableLoaded = false;
 
   constructor(private gameService: GameService) { }
 
@@ -25,12 +28,16 @@ export class GameComponent implements OnInit, OnDestroy {
     this.eogSubs = this.gameService.endOfGameResult.subscribe(() => {
       this.gameSelected = null;
     });
+    this.chessTableLoadSign = this.gameService.chessTableLoaded.subscribe( () => {
+      this.chessTableLoaded = true;
+    });
 
   }
 
   ngOnDestroy() {
     this.selectedGameSubs.unsubscribe();
     this.eogSubs.unsubscribe();
+    this.chessTableLoadSign.unsubscribe();
   }
 
   amINext(game: ChessGameDto): boolean {

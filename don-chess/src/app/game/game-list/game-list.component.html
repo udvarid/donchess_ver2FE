@@ -16,6 +16,7 @@
       style="cursor: pointer"
       *ngFor="let game of games; let i = index"
       (click)="onSelect(i)"
+      [ngStyle]="{'background-color':selectedIndex === i ? 'lightgrey' : 'white' }">
     >
         <strong>White:</strong> {{ game.userOne.fullName }} vs. 
         <strong>Black:</strong> {{ game.userTwo.fullName }}

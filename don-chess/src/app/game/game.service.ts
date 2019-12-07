@@ -31,6 +31,7 @@ export class GameService {
     chessTableChanged = new Subject<Cell[][]>();
     endOfGameResult = new Subject<ResultDto>();
     newPromotion = new Subject<boolean>();
+    chessTableLoaded = new Subject<boolean>();
     pre: string;
     drawOffered = false;
 
@@ -217,6 +218,10 @@ export class GameService {
            niceResult = 'Open';
         }
         return niceResult;
+      }
+
+      thisIsLoaded() {
+        this.chessTableLoaded.next(true);
       }
 
 }

@@ -9,6 +9,7 @@
             <app-cell [cell]="cell"></app-cell>
         </a>    
     </div> 
+    {{ loaded() }}
     <strong *ngIf="tableIsReady">{{ getSelectedGame().userOne.fullName }}</strong>
     <br>  
 </div>

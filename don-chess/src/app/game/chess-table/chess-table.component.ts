@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Cell } from 'src/app/shared/chessTable.model';
 import { ModalService } from 'src/app/shared/modal/model.service';
 import { PromoteType, Color } from 'src/app/shared/enums/enums.model';
-import { ChessTableDto } from 'src/app/shared/dto/chessTableDto.model';
 import { ChessGameDto } from 'src/app/shared/dto/chessGameDto.model';
 
 
@@ -78,6 +77,10 @@ export class ChessTableComponent implements OnInit, OnDestroy {
 
   getSelectedGame(): ChessGameDto {
     return this.gameService.gameSelected;
+  }
+
+  loaded() {
+    this.gameService.thisIsLoaded();
   }
 
 }

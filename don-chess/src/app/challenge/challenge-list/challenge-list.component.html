@@ -57,7 +57,10 @@
         </ul>
         <hr>
 
-        <button type="button" class="btn btn-info" (click)="onCreateFreeChallenge()">Create free challenge</button>
+        <button type="button" 
+                class="btn btn-info" 
+                [disabled]="myChallenges.length > 4"
+                (click)="onCreateFreeChallenge()">Create free challenge</button>
 
     </div>
 </div>

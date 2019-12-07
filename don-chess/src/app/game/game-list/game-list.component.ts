@@ -27,6 +27,8 @@ export class GameListComponent implements OnInit, OnDestroy {
   public isLoading = false;
   public activeShown = true;
 
+  public selectedIndex = -1;
+
 
   constructor(private gameService: GameService, private toastrService: ToastrService) { }
 
@@ -53,10 +55,7 @@ export class GameListComponent implements OnInit, OnDestroy {
 
   onSelect(index: number) {
     this.gameService.getGameSelected(this.games[index].chessGameId);
-  }
-
-  onSelectClosed(index: number) {
-    this.gameService.getGameSelected(this.closedGames[index].chessGameId);
+    this.selectedIndex = index;
   }
 
   amINext(game: ChessGameDto): boolean {
@@ -71,11 +70,13 @@ export class GameListComponent implements OnInit, OnDestroy {
   onActiveGames() {
     this.games = this.openGames.slice();
     this.activeShown = true;
+    this.selectedIndex = -1;
   }
 
   onClosedGames() {
     this.games = this.closedGames.slice();
     this.activeShown = false;
+    this.selectedIndex = -1;
   }
 
   niceResult(game: ChessGameDto): string {
