@@ -17,7 +17,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private eogSubs: Subscription;
   private chessTableLoadSign: Subscription;
 
-  private chessTableLoaded = false;
+  public chessTableLoaded = false;
 
   constructor(private gameService: GameService) { }
 
