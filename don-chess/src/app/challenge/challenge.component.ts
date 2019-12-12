@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { WebSocketService } from '../shared/service/web-socket.service';
+import { ChallengeService } from './challenge.service';
 
 @Component({
   selector: 'app-challenge',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./challenge.component.css']
 })
 export class ChallengeComponent {
-  constructor() {}
+  constructor(private webSocketService: WebSocketService, private challengeService: ChallengeService) {
+    const stompClient = this.webSocketService.connect();
+    stompClient.connect({}, frame => {
+      stompClient.subscribe('/topic/notificationChallenge', (notifications) => {
+        this.challengeService.getUserDetail();
+        this.challengeService.getChallengeDetail();
+    });
+    });
+   }
 }

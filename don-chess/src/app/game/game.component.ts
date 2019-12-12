@@ -4,6 +4,7 @@ import { GameService } from './game.service';
 import { ChessTableDto } from '../shared/dto/chessTableDto.model';
 import { ChessGameDto } from '../shared/dto/chessGameDto.model';
 import { Result } from '../shared/enums/enums.model';
+import { WebSocketService } from '../shared/service/web-socket.service';
 
 @Component({
   selector: 'app-game',
@@ -19,7 +20,24 @@ export class GameComponent implements OnInit, OnDestroy {
 
   public chessTableLoaded = false;
 
-  constructor(private gameService: GameService) { }
+  private moveHappend = -1;
+
+  constructor(private gameService: GameService, private webSocketService: WebSocketService) {
+    const stompClient = this.webSocketService.connect();
+    stompClient.connect({}, frame => {
+      stompClient.subscribe('/topic/notification', (notifications) => {
+      this.moveHappend = notifications.body;
+      if (this.moveHappend !== -1 &&
+          this.gameSelected !== null &&
+          this.gameSelected.chessGameId !== null &&
+          this.moveHappend - this.gameSelected.chessGameId === 0) {
+            this.gameService.getGameSelected(this.gameSelected.chessGameId);
+            this.gameService.getGameList();
+      }
+    });
+    });
+   }
+
 
   ngOnInit() {
     this.selectedGameSubs = this.gameService.gameSelectedChange.subscribe((game: ChessTableDto) => {
