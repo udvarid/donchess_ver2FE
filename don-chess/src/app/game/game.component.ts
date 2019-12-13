@@ -5,6 +5,7 @@ import { ChessTableDto } from '../shared/dto/chessTableDto.model';
 import { ChessGameDto } from '../shared/dto/chessGameDto.model';
 import { Result } from '../shared/enums/enums.model';
 import { WebSocketService } from '../shared/service/web-socket.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-game',
@@ -19,13 +20,15 @@ export class GameComponent implements OnInit, OnDestroy {
   private chessTableLoadSign: Subscription;
 
   public chessTableLoaded = false;
+  pre: string;
 
   private moveHappend = -1;
 
   constructor(private gameService: GameService, private webSocketService: WebSocketService) {
+    this.pre = environment.apiUrl;
     const stompClient = this.webSocketService.connect();
     stompClient.connect({}, frame => {
-      stompClient.subscribe('/topic/notification', (notifications) => {
+      stompClient.subscribe(this.pre + '/topic/notification', (notifications) => {
       this.moveHappend = notifications.body;
       if (this.moveHappend !== -1 &&
           this.gameSelected !== null &&
@@ -35,7 +38,7 @@ export class GameComponent implements OnInit, OnDestroy {
             this.gameService.getGameList();
       }
     });
-    });
+    });    
    }
 
 
