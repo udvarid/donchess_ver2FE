@@ -224,4 +224,17 @@ export class GameService {
         this.chessTableLoaded.next(true);
       }
 
+      checkInWithCurrentGame(gameId: number, lastMoveId: number) {
+        const header = new HttpHeaders({});
+        this.http.get(this.pre + '/api/game/' + gameId, {headers: header,  withCredentials: true }).subscribe((response: ChessTableDto) => {
+          if (response.lastMoveId !== lastMoveId) {
+            this.gameSelected = response;
+            this.gameSelectedChange.next(response);
+            this.drawOffered = false;
+            this.getGameValidMoves(gameId);
+            this.getGameList();
+          }
+      });
+      }
+
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { WebSocketService } from '../shared/service/web-socket.service';
 
 @Component({
   selector: 'app-info',

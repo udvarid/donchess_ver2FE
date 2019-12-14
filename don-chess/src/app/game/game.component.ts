@@ -4,7 +4,9 @@ import { GameService } from './game.service';
 import { ChessTableDto } from '../shared/dto/chessTableDto.model';
 import { ChessGameDto } from '../shared/dto/chessGameDto.model';
 import { Result } from '../shared/enums/enums.model';
-import { WebSocketService } from '../shared/service/web-socket.service';
+
+// import { ConsoleReporter } from 'jasmine';
+// import { WebSocketService } from '../shared/service/web-socket.service';
 
 @Component({
   selector: 'app-game',
@@ -22,8 +24,12 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private moveHappend = -1;
 
-  constructor(private gameService: GameService, private webSocketService: WebSocketService) {
-    const stompClient = this.webSocketService.connect();
+  private timer: any;
+
+
+
+  constructor(private gameService: GameService/* , private webSocketService: WebSocketService */) {
+/*     const stompClient = this.webSocketService.connect();
     stompClient.connect({}, frame => {
       stompClient.subscribe('/topic/notification', (notifications) => {
       this.moveHappend = notifications.body;
@@ -35,12 +41,18 @@ export class GameComponent implements OnInit, OnDestroy {
             this.gameService.getGameList();
       }
     });
-    });
+    }); */
    }
 
 
-  ngOnInit() {
+ngOnInit() {
     this.selectedGameSubs = this.gameService.gameSelectedChange.subscribe((game: ChessTableDto) => {
+
+      if (this.gameSelected !== null) {
+         clearInterval(this.timer);
+      }
+      const checkIn = () => this.gameService.checkInWithCurrentGame(game.chessGameId, game.lastMoveId);
+      this.timer = setInterval(checkIn, 2000);
       this.gameSelected = game;
     });
     this.eogSubs = this.gameService.endOfGameResult.subscribe(() => {
@@ -52,29 +64,32 @@ export class GameComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+ngOnDestroy() {
     this.selectedGameSubs.unsubscribe();
     this.eogSubs.unsubscribe();
     this.chessTableLoadSign.unsubscribe();
+    if (this.gameSelected !== null) {
+      clearInterval(this.timer);
+    }
   }
 
-  amINext(game: ChessGameDto): boolean {
+amINext(game: ChessGameDto): boolean {
     return this.gameService.amINext(game) && game.result === Result.Open;
   }
 
-  onResign() {
+onResign() {
     this.gameService.resign(this.gameSelected.chessGameId);
   }
 
-  onDrawOffer() {
+onDrawOffer() {
     this.gameService.offerDraw();
   }
 
-  onAcceptDraw() {
+onAcceptDraw() {
     this.gameService.acceptDraw(this.gameSelected.chessGameId);
   }
 
-  isDrawOffered(): boolean {
+isDrawOffered(): boolean {
     return this.gameService.drawOffered;
   }
 
