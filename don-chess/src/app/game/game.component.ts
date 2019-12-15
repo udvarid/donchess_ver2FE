@@ -56,6 +56,7 @@ ngOnInit() {
     });
     this.eogSubs = this.gameService.endOfGameResult.subscribe(() => {
       this.gameSelected = null;
+      clearInterval(this.timer);
     });
     this.chessTableLoadSign = this.gameService.chessTableLoaded.subscribe( () => {
       this.chessTableLoaded = true;
